@@ -1,0 +1,53 @@
+ir - present
+------------------------
+yo voy
+tu vas
+él/ella/usted va
+nosotros vamos
+vosotros vais
+ellos/ellas/ustedes van
+
+ser - present
+------------------------
+yo soy
+tu eres
+él/ella/usted es
+nosotros somos
+vosotros ?
+ellos/ellas/ustedes son
+
+ser, ir - preterite
+------------------------
+yo fui
+tu fuiste
+él/ella/usted fue
+nosotros fuimos
+vosotros fuisteis
+ellos/ellas/ustedes fueron
+
+estar - present
+------------------------
+yo estoy
+tu estás
+él/ella/usted está
+nosotros estamos
+vosotros estáis
+ellos/ellas/ustedes están
+
+comer - present
+------------------------
+yo como
+tu comes
+él/ella/usted come
+nosotros comos
+vosotros ?
+ellos/ellas/ustedes comen
+
+hablar - present
+------------------------
+yo hablo
+tu hablas
+él/ella/usted habla
+nosotros hablamos
+vosotros ?
+ellos/ellas/ustedes hablan
