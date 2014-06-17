@@ -1,5 +1,10 @@
 _ = require 'underscore'
+fs = require 'fs'
 request = require 'request'
+
+parser = require './parser'
+data = fs.readFileSync './data', 'utf8'
+dict = parser.parse data
 
 jsdom = require 'jsdom'
 global.window = jsdom.jsdom().createWindow()
@@ -7,8 +12,13 @@ global.document = window.document
 global.jQuery = require('jquery').create(window) # WARNING: jQuery for testing is 1.8.3 - different to app
 global.$ = global.jQuery
 
-verbs = 'ser,estar,hacer,poder,llevar,decir,llegar,ir,querer,poner,saber,pedir,salir,dar,haber,dejar,seguir,pasar,quedar,pensar'
-verbs = verbs.split(',')
+verbs = fs.readFileSync './verbs', 'utf8'
+verbs = verbs.split('\n')
+
+existing = _.pluck dict, 'infinitive'
+verbs = _.difference verbs, existing
+verbs = _.without verbs, ''
+# return console.log verbs
 
 count = 0
 fetch = (verb) ->
@@ -16,11 +26,11 @@ fetch = (verb) ->
   request url, (err, data, body) ->
     if err
       console.warn err
-    if body
+    dom = $ body
+    rows = dom.find('.table.table-condensed.table-bordered:eq(0) tr')
+    if body and rows.length
       console.log verb
-      dom = $ body
       # console.log arguments...
-      rows = dom.find('.table.table-condensed.table-bordered:eq(0) tr')
       rows.each ->
         if $(this).text().indexOf('Present') >= 0
           return true # continue

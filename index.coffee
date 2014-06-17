@@ -3,8 +3,13 @@ clc = require 'cli-color'
 fs = require 'fs'
 inquirer = require 'inquirer'
 
-tenses = ['Presente', 'Pretérito', 'Imperfecto', 'Condicional', 'Futuro']
-prefixes = ['yo', 'tú', 'él/ella/usted', 'nosotros', 'vosotros', 'ellos/ellas/ustedes']
+parser = require './parser'
+
+tenses = require './tenses'
+prefixes =  require './prefixes'
+
+data = fs.readFileSync './data', 'utf8'
+verbs = parser.parse data
 
 rl = null
 
@@ -51,16 +56,6 @@ inquirer.prompt [
   console.log clc.magentaBright '\nHola amigo! Answer the questions as you\'re prompted, type exit to exit.\n'
 
   ask()
-
-data = fs.readFileSync './data', 'utf8'
-data = data.split '\n\n'
-verbs = data.map (line) ->
-  lines = line.split '\n'
-  return {
-    infinitive: lines[0]
-    conjugations: lines.slice(1).map (line) ->
-      line.split(/[\s]+/g).slice(1)
-  }
 
 asked = 0
 correct = 0
