@@ -14,11 +14,11 @@
   "license": "ISC",
   "dependencies": {
     "underscore": "*",
-    "jquery": "1.7.4",
-    "request": "~2.36.0",
-    "jsdom": "~0.11.0",
-    "cli-color": "~0.3.2",
-    "async": "~0.9.0",
-    "inquirer": "~0.5.1"
+    "jQuery": "1.7.4",
+    "request": "2.36.0",
+    "jsdom": "0.11.0",
+    "cli-color": "0.3.2",
+    "async": "0.9.0",
+    "inquirer": "0.5.1"
   }
 }
