@@ -35,7 +35,7 @@ ask = ->
   pi = _.random 0, prefixes.length - 1
 
   tense = tenses[ti]
-  prefix = prefixes[ti]
+  prefix = prefixes[pi]
 
   answer = verb.conjugations?[pi]?[ti]?.trim?()
 
@@ -56,9 +56,14 @@ ask = ->
         return rl.close()
       when answer
         correct++
-        console.log 'YOU RIGHT!\n'
+        console.log 'CORRECT!'
+        console.log correct + '/' + asked
+        console.log ''
       else
-        console.log 'WRONG!!!', answer, '\n'
+        console.log 'WRONG!'
+        console.log 'Correct Answer:', answer
+        console.log correct + '/' + asked
+        console.log ''
     ask()
 
 ask()
