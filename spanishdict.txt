@@ -1,0 +1,23 @@
+ir
+yo   voy   fui   iba   iría  iré
+tú   vas   fuiste  ibas  irías   irás
+él/ella/Ud.  va  fue   iba   iría  irá
+nosotros   vamos   fuimos  íbamos  iríamos   iremos
+vosotros   vais  fuisteis  ibais   iríais  iréis
+ellos/ellas/Uds.   van   fueron  iban  irían   irán
+
+comer
+yo   como  comí  comía   comería   comeré
+tú   comes   comiste   comías  comerías  comerás
+él/ella/Ud.  come  comió   comía   comería   comerá
+nosotros   comemos   comimos   comíamos  comeríamos  comeremos
+vosotros   coméis  comisteis   comíais   comeríais   comeréis
+ellos/ellas/Uds.   comen   comieron  comían  comerían  comerán
+
+hablar
+yo   hablo   hablé   hablaba   hablaría  hablaré
+tú   hablas  hablaste  hablabas  hablarías   hablarás
+él/ella/Ud.  habla   habló   hablaba   hablaría  hablará
+nosotros   hablamos  hablamos  hablábamos  hablaríamos   hablaremos
+vosotros   habláis   hablasteis  hablabais   hablaríais  hablaréis
+ellos/ellas/Uds.   hablan  hablaron  hablaban  hablarían   hablarán

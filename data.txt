@@ -52,6 +52,15 @@ nosotros: hablamos
 vosotros: ?
 ellos/ellas/ustedes: hablan
 
+hablar - imperfecto
+------------------------
+yo: hablaba
+tu: hablabas
+él/ella/usted: hablaba
+nosotros: hablabamos
+vosotros: ?
+ellos/ellas/ustedes: hablaban
+
 Translate
 ------------------------
 I can't do it.: no lo puedo

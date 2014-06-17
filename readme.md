@@ -21,3 +21,5 @@ coffee index.coffee
 
 ## TODO:
 - change the insane flat data format
+- add some proper questions
+- case insensitive

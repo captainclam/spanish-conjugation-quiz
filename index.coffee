@@ -25,12 +25,14 @@ correct = 0
 ask = ->
   index = _.random 0, questions.length - 1
   question = questions[index]
-  # console.log question
-  # return
   
   i2 = _.random 0, question.answers.length - 1
   answer = question.answers[i2]
   [q, a] = answer.split ':'
+
+  # temp for answers I haven't finished
+  if a is '?'
+    return ask()
 
   grr = question.title + ': ' + q + ' '
 
@@ -44,7 +46,7 @@ ask = ->
       console.log 'skipped'
     else if r in ['exit', 'quit']
       return rl.close()
-    else if r is a.trim()
+    else if r is a.trim() # todo: case insensitive
       correct++
       console.log 'YOU RIGHT!\n'
     else
