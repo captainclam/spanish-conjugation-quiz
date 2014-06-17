@@ -1,23 +1,68 @@
 ir
-yo   voy   fui   iba   iría  iré
-tú   vas   fuiste  ibas  irías   irás
-él/ella/Ud.  va  fue   iba   iría  irá
-nosotros   vamos   fuimos  íbamos  iríamos   iremos
-vosotros   vais  fuisteis  ibais   iríais  iréis
-ellos/ellas/Uds.   van   fueron  iban  irían   irán
 
-comer
-yo   como  comí  comía   comería   comeré
-tú   comes   comiste   comías  comerías  comerás
-él/ella/Ud.  come  comió   comía   comería   comerá
-nosotros   comemos   comimos   comíamos  comeríamos  comeremos
-vosotros   coméis  comisteis   comíais   comeríais   comeréis
-ellos/ellas/Uds.   comen   comieron  comían  comerían  comerán
+salir
+yo salgo salí salía saldría saldré
+tú sales saliste salías saldrías saldrás
+él/ella/Ud. sale salió salía saldría saldrá
+nosotros salimos salimos salíamos saldríamos saldremos
+vosotros salís salisteis salíais saldríais saldréis
+ellos/ellas/Uds. salen salieron salían saldrían saldrán
+
+tener
+yo tengo tuve tenía tendría tendré
+tú tienes tuviste tenías tendrías tendrás
+él/ella/Ud. tiene tuvo tenía tendría tendrá
+nosotros tenemos tuvimos teníamos tendríamos tendremos
+vosotros tenéis tuvisteis teníais tendríais tendréis
+ellos/ellas/Uds. tienen tuvieron tenían tendrían tendrán
+
+querer
+yo quiero quise quería querría querré
+tú quieres quisiste querías querrías querrás
+él/ella/Ud. quiere quiso quería querría querrá
+nosotros queremos quisimos queríamos querríamos querremos
+vosotros queréis quisisteis queríais querríais querréis
+ellos/ellas/Uds. quieren quisieron querían querrían querrán
 
 hablar
-yo   hablo   hablé   hablaba   hablaría  hablaré
-tú   hablas  hablaste  hablabas  hablarías   hablarás
-él/ella/Ud.  habla   habló   hablaba   hablaría  hablará
-nosotros   hablamos  hablamos  hablábamos  hablaríamos   hablaremos
-vosotros   habláis   hablasteis  hablabais   hablaríais  hablaréis
-ellos/ellas/Uds.   hablan  hablaron  hablaban  hablarían   hablarán
+yo hablo hablé hablaba hablaría hablaré
+tú hablas hablaste hablabas hablarías hablarás
+él/ella/Ud. habla habló hablaba hablaría hablará
+nosotros hablamos hablamos hablábamos hablaríamos hablaremos
+vosotros habláis hablasteis hablabais hablaríais hablaréis
+ellos/ellas/Uds. hablan hablaron hablaban hablarían hablarán
+
+comer
+
+ser
+yo soy fui era sería seré
+tú eres fuiste eras serías serás
+él/ella/Ud. es fue era sería será
+nosotros somos fuimos éramos seríamos seremos
+vosotros sois fuisteis erais seríais seréis
+ellos/ellas/Uds. son fueron eran serían serán
+
+estar
+yo estoy estuve estaba estaría estaré
+tú estás estuviste estabas estarías estarás
+él/ella/Ud. está estuvo estaba estaría estará
+nosotros estamos estuvimos estábamos estaríamos estaremos
+vosotros estáis estuvisteis estabais estaríais estaréis
+ellos/ellas/Uds. están estuvieron estaban estarían estarán
+
+venir
+yo vengo vine venía vendría vendré
+tú vienes viniste venías vendrías vendrás
+él/ella/Ud. viene vino venía vendría vendrá
+nosotros venimos vinimos veníamos vendríamos vendremos
+vosotros venís vinisteis veníais vendríais vendréis
+ellos/ellas/Uds. vienen vinieron venían vendrían vendrán
+
+beber
+yo bebo bebí bebía bebería beberé
+tú bebes bebiste bebías beberías beberás
+él/ella/Ud. bebe bebió bebía bebería beberá
+nosotros bebemos bebimos bebíamos beberíamos beberemos
+vosotros bebéis bebisteis bebíais beberíais beberéis
+ellos/ellas/Uds. beben bebieron bebían beberían beberán
+

@@ -21,6 +21,7 @@ for verb in verbs
   for tense, i in tenses
     console.log verb.infinitive, tense, ':'
     for prefix, j in prefixes
-      console.log prefix, verb.conjugations[i][j]
+      if result = verb?.conjugations?[j]?[i]
+        console.log prefix, result
     console.log ''
   console.log '------------------------'
