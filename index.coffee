@@ -2,7 +2,7 @@ _ = require 'underscore'
 clc = require 'cli-color'
 fs = require 'fs'
 
-tenses = ['Presente', 'Pretérito', 'Imperfecto'] #, 'Condicional', 'Futuro']
+tenses = ['Presente'] #, 'Pretérito', 'Imperfecto'] #, 'Condicional', 'Futuro']
 prefixes = ['yo', 'tú', 'él/ella/usted', 'nosotros', 'vosotros', 'ellos/ellas/ustedes']
 
 data = fs.readFileSync './spanishdict.txt', 'utf8'
@@ -37,6 +37,10 @@ ask = ->
 
   tense = tenses[ti]
   prefix = prefixes[pi]
+
+  # temp hack porque no sé "vosotros"
+  if prefix is 'vosotros'
+    return ask()
 
   answer = verb.conjugations?[pi]?[ti]?.trim?()
 

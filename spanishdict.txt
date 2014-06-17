@@ -1,35 +1,3 @@
-salir
-yo salgo salí salía saldría saldré
-tú sales saliste salías saldrías saldrás
-él/ella/Ud. sale salió salía saldría saldrá
-nosotros salimos salimos salíamos saldríamos saldremos
-vosotros salís salisteis salíais saldríais saldréis
-ellos/ellas/Uds. salen salieron salían saldrían saldrán
-
-tener
-yo tengo tuve tenía tendría tendré
-tú tienes tuviste tenías tendrías tendrás
-él/ella/Ud. tiene tuvo tenía tendría tendrá
-nosotros tenemos tuvimos teníamos tendríamos tendremos
-vosotros tenéis tuvisteis teníais tendríais tendréis
-ellos/ellas/Uds. tienen tuvieron tenían tendrían tendrán
-
-querer
-yo quiero quise quería querría querré
-tú quieres quisiste querías querrías querrás
-él/ella/Ud. quiere quiso quería querría querrá
-nosotros queremos quisimos queríamos querríamos querremos
-vosotros queréis quisisteis queríais querríais querréis
-ellos/ellas/Uds. quieren quisieron querían querrían querrán
-
-hablar
-yo hablo hablé hablaba hablaría hablaré
-tú hablas hablaste hablabas hablarías hablarás
-él/ella/Ud. habla habló hablaba hablaría hablará
-nosotros hablamos hablamos hablábamos hablaríamos hablaremos
-vosotros habláis hablasteis hablabais hablaríais hablaréis
-ellos/ellas/Uds. hablan hablaron hablaban hablarían hablarán
-
 ser
 yo soy fui era sería seré
 tú eres fuiste eras serías serás
@@ -46,18 +14,146 @@ nosotros estamos estuvimos estábamos estaríamos estaremos
 vosotros estáis estuvisteis estabais estaríais estaréis
 ellos/ellas/Uds. están estuvieron estaban estarían estarán
 
-venir
-yo vengo vine venía vendría vendré
-tú vienes viniste venías vendrías vendrás
-él/ella/Ud. viene vino venía vendría vendrá
-nosotros venimos vinimos veníamos vendríamos vendremos
-vosotros venís vinisteis veníais vendríais vendréis
-ellos/ellas/Uds. vienen vinieron venían vendrían vendrán
+poder
+yo puedo pude podía podría podré
+tú puedes pudiste podías podrías podrás
+él/ella/Ud. puede pudo podía podría podrá
+nosotros podemos pudimos podíamos podríamos podremos
+vosotros podéis pudisteis podíais podríais podréis
+ellos/ellas/Uds. pueden pudieron podían podrían podrán
 
-beber
-yo bebo bebí bebía bebería beberé
-tú bebes bebiste bebías beberías beberás
-él/ella/Ud. bebe bebió bebía bebería beberá
-nosotros bebemos bebimos bebíamos beberíamos beberemos
-vosotros bebéis bebisteis bebíais beberíais beberéis
-ellos/ellas/Uds. beben bebieron bebían beberían beberán
+llevar
+yo llevo llevé llevaba llevaría llevaré
+tú llevas llevaste llevabas llevarías llevarás
+él/ella/Ud. lleva llevó llevaba llevaría llevará
+nosotros llevamos llevamos llevábamos llevaríamos llevaremos
+vosotros lleváis llevasteis llevabais llevaríais llevaréis
+ellos/ellas/Uds. llevan llevaron llevaban llevarían llevarán
+
+decir
+yo digo dije decía diría diré
+tú dices dijiste decías dirías dirás
+él/ella/Ud. dice dijo decía diría dirá
+nosotros decimos dijimos decíamos diríamos diremos
+vosotros decís dijisteis decíais diríais diréis
+ellos/ellas/Uds. dicen dijeron decían dirían dirán
+
+llegar
+yo llego llegué llegaba llegaría llegaré
+tú llegas llegaste llegabas llegarías llegarás
+él/ella/Ud. llega llegó llegaba llegaría llegará
+nosotros llegamos llegamos llegábamos llegaríamos llegaremos
+vosotros llegáis llegasteis llegabais llegaríais llegaréis
+ellos/ellas/Uds. llegan llegaron llegaban llegarían llegarán
+
+poner
+yo pongo puse ponía pondría pondré
+tú pones pusiste ponías pondrías pondrás
+él/ella/Ud. pone puso ponía pondría pondrá
+nosotros ponemos pusimos poníamos pondríamos pondremos
+vosotros ponéis pusisteis poníais pondríais pondréis
+ellos/ellas/Uds. ponen pusieron ponían pondrían pondrán
+
+pedir
+yo pido pedí pedía pediría pediré
+tú pides pediste pedías pedirías pedirás
+él/ella/Ud. pide pidió pedía pediría pedirá
+nosotros pedimos pedimos pedíamos pediríamos pediremos
+vosotros pedís pedisteis pedíais pediríais pediréis
+ellos/ellas/Uds. piden pidieron pedían pedirían pedirán
+
+salir
+yo salgo salí salía saldría saldré
+tú sales saliste salías saldrías saldrás
+él/ella/Ud. sale salió salía saldría saldrá
+nosotros salimos salimos salíamos saldríamos saldremos
+vosotros salís salisteis salíais saldríais saldréis
+ellos/ellas/Uds. salen salieron salían saldrían saldrán
+
+dar
+yo doy di daba daría daré
+tú das diste dabas darías darás
+él/ella/Ud. da dio daba daría dará
+nosotros damos dimos dábamos daríamos daremos
+vosotros dais disteis dabais daríais daréis
+ellos/ellas/Uds. dan dieron daban darían darán
+
+haber
+yo he hube había habría habré
+tú has hubiste habías habrías habrás
+él/ella/Ud. ha,hay hubo había habría habrá
+nosotros hemos hubimos habíamos habríamos habremos
+vosotros habéis hubisteis habíais habríais habréis
+ellos/ellas/Uds. han hubieron habían habrían habrán
+
+dejar
+yo dejo dejé dejaba dejaría dejaré
+tú dejas dejaste dejabas dejarías dejarás
+él/ella/Ud. deja dejó dejaba dejaría dejará
+nosotros dejamos dejamos dejábamos dejaríamos dejaremos
+vosotros dejáis dejasteis dejabais dejaríais dejaréis
+ellos/ellas/Uds. dejan dejaron dejaban dejarían dejarán
+
+seguir
+yo sigo seguí seguía seguiría seguiré
+tú sigues seguiste seguías seguirías seguirás
+él/ella/Ud. sigue siguió seguía seguiría seguirá
+nosotros seguimos seguimos seguíamos seguiríamos seguiremos
+vosotros seguís seguisteis seguíais seguiríais seguiréis
+ellos/ellas/Uds. siguen siguieron seguían seguirían seguirán
+
+quedar
+yo quedo quedé quedaba quedaría quedaré
+tú quedas quedaste quedabas quedarías quedarás
+él/ella/Ud. queda quedó quedaba quedaría quedará
+nosotros quedamos quedamos quedábamos quedaríamos quedaremos
+vosotros quedáis quedasteis quedabais quedaríais quedaréis
+ellos/ellas/Uds. quedan quedaron quedaban quedarían quedarán
+
+pensar
+yo pienso pensé pensaba pensaría pensaré
+tú piensas pensaste pensabas pensarías pensarás
+él/ella/Ud. piensa pensó pensaba pensaría pensará
+nosotros pensamos pensamos pensábamos pensaríamos pensaremos
+vosotros pensáis pensasteis pensabais pensaríais pensaréis
+ellos/ellas/Uds. piensan pensaron pensaban pensarían pensarán
+
+ir
+yo voy fui iba iría iré
+tú vas fuiste ibas irías irás
+él/ella/Ud. va fue iba iría irá
+nosotros vamos fuimos íbamos iríamos iremos
+vosotros vais fuisteis ibais iríais iréis
+ellos/ellas/Uds. van fueron iban irían irán
+
+querer
+yo quiero quise quería querría querré
+tú quieres quisiste querías querrías querrás
+él/ella/Ud. quiere quiso quería querría querrá
+nosotros queremos quisimos queríamos querríamos querremos
+vosotros queréis quisisteis queríais querríais querréis
+ellos/ellas/Uds. quieren quisieron querían querrían querrán
+
+saber
+yo sé supe sabía sabría sabré
+tú sabes supiste sabías sabrías sabrás
+él/ella/Ud. sabe supo sabía sabría sabrá
+nosotros sabemos supimos sabíamos sabríamos sabremos
+vosotros sabéis supisteis sabíais sabríais sabréis
+ellos/ellas/Uds. saben supieron sabían sabrían sabrán
+
+pasar
+yo paso pasé pasaba pasaría pasaré
+tú pasas pasaste pasabas pasarías pasarás
+él/ella/Ud. pasa pasó pasaba pasaría pasará
+nosotros pasamos pasamos pasábamos pasaríamos pasaremos
+vosotros pasáis pasasteis pasabais pasaríais pasaréis
+ellos/ellas/Uds. pasan pasaron pasaban pasarían pasarán
+
+hacer
+yo hago hice hacía haría haré
+tú haces hiciste hacías harías harás
+él/ella/Ud. hace hizo hacía haría hará
+nosotros hacemos hicimos hacíamos haríamos haremos
+vosotros hacéis hicisteis hacíais haríais haréis
+ellos/ellas/Uds. hacen hicieron hacían harían harán
