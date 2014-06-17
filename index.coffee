@@ -1,4 +1,5 @@
 _ = require 'underscore'
+clc = require 'cli-color'
 fs = require 'fs'
 
 tenses = ['Presente', 'Pretérito', 'Imperfecto'] #, 'Condicional', 'Futuro']
@@ -56,14 +57,15 @@ ask = ->
         return rl.close()
       when answer
         correct++
-        console.log 'CORRECT!'
+        console.log clc.green 'CORRECT!'
         console.log correct + '/' + asked
         console.log ''
       else
-        console.log 'WRONG!'
+        console.log clc.red 'WRONG!'
         console.log 'Correct Answer:', answer
         console.log correct + '/' + asked
         console.log ''
     ask()
 
+process.stdout.write '\u001B[2J\u001B[0;0f'
 ask()
