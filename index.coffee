@@ -1,18 +1,18 @@
 _ = require 'underscore'
 fs = require 'fs'
 
-data = fs.readFileSync './data.txt', 'utf8'
+tenses = ['Presente', 'Pretérito', 'Imperfecto'] #, 'Condicional', 'Futuro']
+prefixes = ['yo', 'tú', 'él/ella/usted', 'nosotros', 'vosotros', 'ellos/ellas/ustedes']
 
-questions = data.split '\n\n'
-questions = questions.map (line) ->
+data = fs.readFileSync './spanishdict.txt', 'utf8'
+data = data.split '\n\n'
+verbs = data.map (line) ->
   lines = line.split '\n'
   return {
-    title: lines[0]
-    answers: lines.slice(2)
+    infinitive: lines[0]
+    conjugations: lines.slice(1).map (line) ->
+      line.split(/[\s]+/g).slice(1)
   }
-
-# console.log questions
-# console.log '------------------------'
 
 readline = require 'readline'
 rl = readline.createInterface
@@ -22,34 +22,43 @@ rl = readline.createInterface
 asked = 0
 correct = 0
 
+rand = (arr) ->
+  unless arr.length
+    return null
+  index = _.random(0, arr.length - 1)
+  return arr[index]
+
 ask = ->
-  index = _.random 0, questions.length - 1
-  question = questions[index]
-  
-  i2 = _.random 0, question.answers.length - 1
-  answer = question.answers[i2]
-  [q, a] = answer.split ':'
+  verb = rand verbs
 
-  # temp for answers I haven't finished
-  if a is '?'
-    return ask()
+  ti = _.random 0, tenses.length - 1
+  pi = _.random 0, prefixes.length - 1
 
-  grr = question.title + ': ' + q + ' '
+  tense = tenses[ti]
+  prefix = prefixes[ti]
 
-  rl.question grr, (r) ->
+  answer = verb.conjugations?[pi]?[ti]?.trim?()
+
+  # return console.log tense, verb.infinitive, ':', prefix, answer
+
+  question = [tense, verb.infinitive, prefix, ''].join ' : '
+
+  rl.question question, (response) ->
     asked++
-    if r is 'clear'
-      process.stdout.write '\u001B[2J\u001B[0;0f'
-    else if r is 'score'
-      console.log correct + '/' + asked
-    else if r is 'skip'
-      console.log 'skipped'
-    else if r in ['exit', 'quit']
-      return rl.close()
-    else if r is a.trim() # todo: case insensitive
-      correct++
-      console.log 'YOU RIGHT!\n'
-    else
-      console.log 'WRONG!!!', a, '\n'
+    switch response
+      when 'clear'
+        process.stdout.write '\u001B[2J\u001B[0;0f'
+      when 'score'
+        console.log correct + '/' + asked
+      when 'skip'
+        console.log 'skipped'
+      when 'exit', 'quit'
+        return rl.close()
+      when answer
+        correct++
+        console.log 'YOU RIGHT!\n'
+      else
+        console.log 'WRONG!!!', answer, '\n'
     ask()
+
 ask()

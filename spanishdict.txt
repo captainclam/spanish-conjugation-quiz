@@ -1,5 +1,3 @@
-ir
-
 salir
 yo salgo salí salía saldría saldré
 tú sales saliste salías saldrías saldrás
@@ -32,8 +30,6 @@ nosotros hablamos hablamos hablábamos hablaríamos hablaremos
 vosotros habláis hablasteis hablabais hablaríais hablaréis
 ellos/ellas/Uds. hablan hablaron hablaban hablarían hablarán
 
-comer
-
 ser
 yo soy fui era sería seré
 tú eres fuiste eras serías serás
@@ -65,4 +61,3 @@ tú bebes bebiste bebías beberías beberás
 nosotros bebemos bebimos bebíamos beberíamos beberemos
 vosotros bebéis bebisteis bebíais beberíais beberéis
 ellos/ellas/Uds. beben bebieron bebían beberían beberán
-
