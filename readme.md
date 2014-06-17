@@ -2,6 +2,7 @@
 
 Nothing like duolingo. Merely a rapid fire command line quiz game. mostly for practicing conjugating verbs but really it could do anything.
 
+![screenshots](anim.gif)
 
 ## Installation
 ```
