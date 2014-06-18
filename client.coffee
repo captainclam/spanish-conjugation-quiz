@@ -1,37 +1,30 @@
 window._ = require 'underscore'
-
 tenses = require './tenses.coffee'
 pronouns =  require './pronouns.coffee'
 
 window.usingVerbs = JSON.parse localStorage.getItem('usingVerbs') # for filtering
 verbs = null
-
-$ ->
-  $.ajax({
-    dataType: "json",
-    url: 'dict.json',
-    success: (data) ->
-      window.usingVerbs ?= _.pluck(data, 'infinitive').slice(0, 10) # start with just 10
-      verbs = data
-      init()
-  });
+asked = 0
+correct = 0
 
 prompts = [
   {
     name: 'tenses'
     message: 'Which tenses do you want to test?'
-    type: 'checkbox'
     choices: tenses
     default: ['Presente', 'Pretérito', 'Imperfecto']
   }
   {
     name: 'pronouns'
     message: 'Which pronouns do you want to test?'
-    type: 'checkbox'
     choices: pronouns
     default: _.without pronouns, 'vosotros'
   }
 ]
+
+toggleQuiz = ->
+  $('.prompts').toggle()
+  $('.quiz').toggle()
 
 init = ->
   verbPane = $('.using-verbs')
@@ -61,41 +54,7 @@ init = ->
       input.val option
       label = $('<label>').append(input).append(option)
       pane.append label
-    $('.prompts').append pane
-
-  button = $ '<button>Start Quiz</button>'
-  button.on 'click', ->
-    ts = _.map $('.prompts').find('input[name=tenses]:checked'), (el) -> el.value
-    ps = _.map $('.prompts').find('input[name=pronouns]:checked'), (el) -> el.value
-    tenses = tenses.map (t) ->
-      if ts.indexOf(t) >= 0
-        return t
-      else
-        return null # got to keep order/place
-    pronouns = pronouns.map (t) ->
-      if ps.indexOf(t) >= 0
-        return t
-      else
-        return null # got to keep order/place
-    $('.prompts').hide()
-    $('.quiz').show()
-    ask()
-  $('.show-prompts').click ->
-    $('.quiz').hide()
-    $('.prompts').show()
-  $('.prompts').append button
-
-  $('.response').keyup (e) ->
-    # console.log e.keyCode
-    if e.keyCode is 13
-      $('.submit').trigger 'click'
-      # console.log 'ENTER'
-
-
-asked = 0
-correct = 0
-used = []
-repeated = 0
+    $('.prompts').prepend pane
 
 rand = (arr) ->
   unless arr.length
@@ -106,32 +65,15 @@ rand = (arr) ->
 ask = ->
   $('.response').focus()
 
-  verb = rand _.filter verbs, (v) -> v.infinitive in usingVerbs
+  verb = rand _.filter verbs, (v) ->
+    v.infinitive in usingVerbs
 
   ti = _.random 0, tenses.length - 1
   pi = _.random 0, pronouns.length - 1
-
   tense = tenses[ti]
   pronoun = pronouns[pi]
-
-  # null tenses/pronouns have been opted out of
-  unless tense? and pronoun
-    return ask()
-
-  answer = verb.conjugations?[pi]?[ti]?.trim?()
-
-  # return console.log tense, verb.infinitive, ':', pronoun, answer
-
-  question = [tense, verb.infinitive, pronoun, ''].join ' : '
-
-  # if _.contains used, question
-  #   repeated++
-  #   if repeated > 10
-  #     alert 'run out of questions. please select more verbs'
-  #   else
-  #     return ask()
-  # repeated = 0
-  # used.push question
+  unless tense? and pronoun?
+    return ask() # null tenses/pronouns have been opted out of
 
   $('.tense .value').text tense
   $('.verb .value').text verb.infinitive
@@ -145,6 +87,7 @@ ask = ->
     response = $('.response').val()
     asked++
 
+    answer = verb.conjugations?[pi]?[ti]?.trim?()
     $('.result').toggleClass 'correct', response is answer
     if response is answer
       correct++
@@ -155,3 +98,27 @@ ask = ->
     $('.score').html correct + '/' + asked
     $('.response').val('')
     ask()
+
+$ ->
+
+  $.ajax
+    dataType: 'json',
+    url: 'dict.json',
+    success: (data) ->
+      window.usingVerbs ?= _.pluck(data, 'infinitive').slice(0, 10) # start with just 10
+      verbs = data
+      init()
+
+  $('.start-quiz').on 'click', ->
+    ts = _.map $('.prompts').find('input[name=tenses]:checked'), (el) -> el.value
+    ps = _.map $('.prompts').find('input[name=pronouns]:checked'), (el) -> el.value
+    tenses = tenses.map (t) -> if ts.indexOf(t) >= 0 then t else null
+    pronouns = pronouns.map (t) -> if ps.indexOf(t) >= 0 then t else null
+    toggleQuiz()
+    ask()
+
+  $('.show-prompts').click toggleQuiz
+
+  $('.response').keyup (e) ->
+    if e.keyCode is 13
+      $('.submit').trigger 'click'
