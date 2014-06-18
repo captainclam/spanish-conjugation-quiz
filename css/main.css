@@ -1,0 +1,30 @@
+body {
+  width: 800px;
+  font-family: Verdana;
+  font-size: 20px;
+  color: #333;
+  line-height: 1.8;
+  margin: 0 auto;
+}
+
+.quiz {
+  display: none;
+}
+
+.prompt {
+  margin-bottom: 40px;
+}
+.prompts label {
+  display: block;
+}
+
+.result {
+  color: red;
+}
+.result.correct {
+  color: green;
+}
+
+input, button {
+  font-size: 30px;
+}
