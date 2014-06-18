@@ -140,6 +140,7 @@ rand = function(arr) {
 
 ask = function() {
   var answer, pi, pronoun, question, tense, ti, verb, _ref, _ref1, _ref2, _ref3;
+  $('.response').focus();
   verb = rand(_.filter(verbs, function(v) {
     var _ref;
     return _ref = v.infinitive, __indexOf.call(usingVerbs, _ref) >= 0;

@@ -104,6 +104,8 @@ rand = (arr) ->
   return arr[index]
 
 ask = ->
+  $('.response').focus()
+
   verb = rand _.filter verbs, (v) -> v.infinitive in usingVerbs
 
   ti = _.random 0, tenses.length - 1
