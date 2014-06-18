@@ -35,11 +35,13 @@ prompts = [
 
 init = ->
   verbPane = $('.using-verbs')
-  verbPane.on 'change', 'input', ->
+  verbPane.on 'change', 'input', (e) ->
+    if $(e.currentTarget).hasClass 'select-all'
+      checked = $(e.currentTarget).prop 'checked'
+      verbPane.find('input').prop 'checked', checked
     using = _.map $('.using-verbs input:checked'), (el) -> el.value
     window.usingVerbs = using
     localStorage.setItem 'usingVerbs', JSON.stringify using
-    console.log 'change inputs', using
 
   for verb in verbs
     input = $ '<input type="checkbox">'
@@ -62,7 +64,7 @@ init = ->
     $('.prompts').append pane
 
   button = $ '<button>Start Quiz</button>'
-  button.one 'click', ->
+  button.on 'click', ->
     ts = _.map $('.prompts').find('input[name=tenses]:checked'), (el) -> el.value
     ps = _.map $('.prompts').find('input[name=pronouns]:checked'), (el) -> el.value
     tenses = tenses.map (t) ->
@@ -75,9 +77,12 @@ init = ->
         return t
       else
         return null # got to keep order/place
-    $('.prompts').remove()
+    $('.prompts').hide()
     $('.quiz').show()
     ask()
+  $('.show-prompts').click ->
+    $('.quiz').hide()
+    $('.prompts').show()
   $('.prompts').append button
 
   $('.response').keyup (e) ->
@@ -90,6 +95,7 @@ init = ->
 asked = 0
 correct = 0
 used = []
+repeated = 0
 
 rand = (arr) ->
   unless arr.length
@@ -116,11 +122,14 @@ ask = ->
 
   question = [tense, verb.infinitive, pronoun, ''].join ' : '
 
-  # todo: once all have been asked, this is going to loop forever
-  if _.contains used, question
-    return ask()
-
-  used.push question
+  # if _.contains used, question
+  #   repeated++
+  #   if repeated > 10
+  #     alert 'run out of questions. please select more verbs'
+  #   else
+  #     return ask()
+  # repeated = 0
+  # used.push question
 
   $('.tense .value').text tense
   $('.verb .value').text verb.infinitive
@@ -129,6 +138,7 @@ ask = ->
 
   $('.translation').toggle verb.translation?.length > 0
 
+  $('.submit').off 'click'
   $('.submit').one 'click', ->
     response = $('.response').val()
     asked++

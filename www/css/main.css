@@ -47,3 +47,8 @@ input, button {
 .using-verbs label {
   display: block;
 }
+
+.show-prompts {
+  font-size: 20px;
+  float: right;
+}

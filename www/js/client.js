@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var ask, asked, correct, init, prompts, pronouns, rand, tenses, used, verbs,
+var ask, asked, correct, init, prompts, pronouns, rand, repeated, tenses, used, verbs,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 window._ = require('underscore');
@@ -45,14 +45,17 @@ prompts = [
 init = function() {
   var button, input, label, option, pane, prompt, verb, verbPane, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
   verbPane = $('.using-verbs');
-  verbPane.on('change', 'input', function() {
-    var using;
+  verbPane.on('change', 'input', function(e) {
+    var checked, using;
+    if ($(e.currentTarget).hasClass('select-all')) {
+      checked = $(e.currentTarget).prop('checked');
+      verbPane.find('input').prop('checked', checked);
+    }
     using = _.map($('.using-verbs input:checked'), function(el) {
       return el.value;
     });
     window.usingVerbs = using;
-    localStorage.setItem('usingVerbs', JSON.stringify(using));
-    return console.log('change inputs', using);
+    return localStorage.setItem('usingVerbs', JSON.stringify(using));
   });
   for (_i = 0, _len = verbs.length; _i < _len; _i++) {
     verb = verbs[_i];
@@ -80,7 +83,7 @@ init = function() {
     $('.prompts').append(pane);
   }
   button = $('<button>Start Quiz</button>');
-  button.one('click', function() {
+  button.on('click', function() {
     var ps, ts;
     ts = _.map($('.prompts').find('input[name=tenses]:checked'), function(el) {
       return el.value;
@@ -102,9 +105,13 @@ init = function() {
         return null;
       }
     });
-    $('.prompts').remove();
+    $('.prompts').hide();
     $('.quiz').show();
     return ask();
+  });
+  $('.show-prompts').click(function() {
+    $('.quiz').hide();
+    return $('.prompts').show();
   });
   $('.prompts').append(button);
   return $('.response').keyup(function(e) {
@@ -119,6 +126,8 @@ asked = 0;
 correct = 0;
 
 used = [];
+
+repeated = 0;
 
 rand = function(arr) {
   var index;
@@ -144,15 +153,12 @@ ask = function() {
   }
   answer = (_ref = verb.conjugations) != null ? (_ref1 = _ref[pi]) != null ? (_ref2 = _ref1[ti]) != null ? typeof _ref2.trim === "function" ? _ref2.trim() : void 0 : void 0 : void 0 : void 0;
   question = [tense, verb.infinitive, pronoun, ''].join(' : ');
-  if (_.contains(used, question)) {
-    return ask();
-  }
-  used.push(question);
   $('.tense .value').text(tense);
   $('.verb .value').text(verb.infinitive);
   $('.pronoun .value').text(pronoun);
   $('.translation .value').text(verb.translation);
   $('.translation').toggle(((_ref3 = verb.translation) != null ? _ref3.length : void 0) > 0);
+  $('.submit').off('click');
   return $('.submit').one('click', function() {
     var response;
     response = $('.response').val();
