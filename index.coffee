@@ -6,7 +6,7 @@ inquirer = require 'inquirer'
 parser = require './parser'
 
 tenses = require './tenses'
-prefixes =  require './prefixes'
+pronouns =  require './pronouns'
 
 data = fs.readFileSync './data', 'utf8'
 verbs = parser.parse data
@@ -23,10 +23,10 @@ inquirer.prompt [
   }
   {
     name: 'b'
-    message: 'Which prefixes do you want to test?'
+    message: 'Which pronouns do you want to test?'
     type: 'checkbox'
-    choices: prefixes
-    default: _.without prefixes, 'vosotros'
+    choices: pronouns
+    default: _.without pronouns, 'vosotros'
   }
 ], (answers) ->
   # console.log answers
@@ -37,14 +37,14 @@ inquirer.prompt [
     else
       return null # got to keep order/place
 
-  prefixes = prefixes.map (t) ->
+  pronouns = pronouns.map (t) ->
     if answers.b.indexOf(t) >= 0
       return t
     else
       return null # got to keep order/place
 
   # console.log tenses
-  # console.log prefixes
+  # console.log pronouns
 
   readline = require 'readline'
   rl = readline.createInterface
@@ -71,20 +71,20 @@ ask = ->
   verb = rand verbs
 
   ti = _.random 0, tenses.length - 1
-  pi = _.random 0, prefixes.length - 1
+  pi = _.random 0, pronouns.length - 1
 
   tense = tenses[ti]
-  prefix = prefixes[pi]
+  pronoun = pronouns[pi]
 
-  # null tenses/prefixes have been opted out of
-  unless tense? and prefix
+  # null tenses/pronouns have been opted out of
+  unless tense? and pronoun
     return ask()
 
   answer = verb.conjugations?[pi]?[ti]?.trim?()
 
-  # return console.log tense, verb.infinitive, ':', prefix, answer
+  # return console.log tense, verb.infinitive, ':', pronoun, answer
 
-  question = [tense, verb.infinitive, prefix, ''].join ' : '
+  question = [tense, verb.infinitive, pronoun, ''].join ' : '
 
   # todo: once all have been asked, this is going to loop forever
   if _.contains used, question

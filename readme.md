@@ -22,7 +22,11 @@ Type `exit` to quit the program.
 
 ## Updating the dictionary
 
-Edit fetch.coffee, and change the list of verbs (in their infinitive form) on line 10. Run that file and pipe the output to the dictionary (e.g. `coffee fetch.coffee > data`). Note if you get some bad responses from spanishdict.com you can get crap in the dictionary file which will ruin the program. just open it in a text edit and skim it looking for entries that failed and remove them.
+Edit the file `verbs`, and add to the list of verbs (in their infinitive form).
+
+Run `fetch.coffee` and pipe the output to the dictionary (e.g. `coffee fetch.coffee >> data`).
+
+Note if you get some bad/empty responses from spanishdict.com you may need to run the command again. It will only add new entries to the dictionary for verbs that have not already been fetched, so there is no harm in running it multiple times.
 
 
 ## TODO / Ideas
