@@ -1,8 +1,9 @@
-_ = require 'underscore'
+window._ = require 'underscore'
 
 tenses = require './tenses.coffee'
 pronouns =  require './pronouns.coffee'
 
+window.usingVerbs = JSON.parse localStorage.getItem('usingVerbs') # for filtering
 verbs = null
 
 $ ->
@@ -10,6 +11,7 @@ $ ->
     dataType: "json",
     url: 'dict.json',
     success: (data) ->
+      window.usingVerbs ?= _.pluck(data, 'infinitive').slice(0, 10) # start with just 10
       verbs = data
       init()
   });
@@ -32,6 +34,21 @@ prompts = [
 ]
 
 init = ->
+  verbPane = $('.using-verbs')
+  verbPane.on 'change', 'input', ->
+    using = _.map $('.using-verbs input:checked'), (el) -> el.value
+    window.usingVerbs = using
+    localStorage.setItem 'usingVerbs', JSON.stringify using
+    console.log 'change inputs', using
+
+  for verb in verbs
+    input = $ '<input type="checkbox">'
+    input.prop 'checked', verb.infinitive in window.usingVerbs
+    input.val verb.infinitive
+    label = $('<label>').html(verb.infinitive)
+    label.prepend input
+    verbPane.append label
+
   for prompt in prompts
     pane = $ '<div class="prompt">'
     pane.append prompt.message
@@ -81,7 +98,7 @@ rand = (arr) ->
   return arr[index]
 
 ask = ->
-  verb = rand verbs
+  verb = rand _.filter verbs, (v) -> v.infinitive in usingVerbs
 
   ti = _.random 0, tenses.length - 1
   pi = _.random 0, pronouns.length - 1
@@ -102,11 +119,15 @@ ask = ->
   # todo: once all have been asked, this is going to loop forever
   if _.contains used, question
     return ask()
+
   used.push question
 
   $('.tense .value').text tense
   $('.verb .value').text verb.infinitive
   $('.pronoun .value').text pronoun
+  $('.translation .value').text verb.translation
+
+  $('.translation').toggle verb.translation?.length > 0
 
   $('.submit').one 'click', ->
     response = $('.response').val()

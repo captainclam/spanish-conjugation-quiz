@@ -1,12 +1,14 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var ask, asked, correct, init, prompts, pronouns, rand, tenses, used, verbs, _,
+var ask, asked, correct, init, prompts, pronouns, rand, tenses, used, verbs,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-_ = require('underscore');
+window._ = require('underscore');
 
 tenses = require('./tenses.coffee');
 
 pronouns = require('./pronouns.coffee');
+
+window.usingVerbs = JSON.parse(localStorage.getItem('usingVerbs'));
 
 verbs = null;
 
@@ -15,6 +17,9 @@ $(function() {
     dataType: "json",
     url: 'dict.json',
     success: function(data) {
+      if (window.usingVerbs == null) {
+        window.usingVerbs = _.pluck(data, 'infinitive').slice(0, 10);
+      }
       verbs = data;
       return init();
     }
@@ -38,14 +43,33 @@ prompts = [
 ];
 
 init = function() {
-  var button, input, label, option, pane, prompt, _i, _j, _len, _len1, _ref;
-  for (_i = 0, _len = prompts.length; _i < _len; _i++) {
-    prompt = prompts[_i];
+  var button, input, label, option, pane, prompt, verb, verbPane, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
+  verbPane = $('.using-verbs');
+  verbPane.on('change', 'input', function() {
+    var using;
+    using = _.map($('.using-verbs input:checked'), function(el) {
+      return el.value;
+    });
+    window.usingVerbs = using;
+    localStorage.setItem('usingVerbs', JSON.stringify(using));
+    return console.log('change inputs', using);
+  });
+  for (_i = 0, _len = verbs.length; _i < _len; _i++) {
+    verb = verbs[_i];
+    input = $('<input type="checkbox">');
+    input.prop('checked', (_ref = verb.infinitive, __indexOf.call(window.usingVerbs, _ref) >= 0));
+    input.val(verb.infinitive);
+    label = $('<label>').html(verb.infinitive);
+    label.prepend(input);
+    verbPane.append(label);
+  }
+  for (_j = 0, _len1 = prompts.length; _j < _len1; _j++) {
+    prompt = prompts[_j];
     pane = $('<div class="prompt">');
     pane.append(prompt.message);
-    _ref = prompt.choices;
-    for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
-      option = _ref[_j];
+    _ref1 = prompt.choices;
+    for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
+      option = _ref1[_k];
       input = $('<input type="checkbox">');
       input.attr('name', prompt.name);
       input.prop('checked', __indexOf.call(prompt["default"], option) >= 0);
@@ -106,8 +130,11 @@ rand = function(arr) {
 };
 
 ask = function() {
-  var answer, pi, pronoun, question, tense, ti, verb, _ref, _ref1, _ref2;
-  verb = rand(verbs);
+  var answer, pi, pronoun, question, tense, ti, verb, _ref, _ref1, _ref2, _ref3;
+  verb = rand(_.filter(verbs, function(v) {
+    var _ref;
+    return _ref = v.infinitive, __indexOf.call(usingVerbs, _ref) >= 0;
+  }));
   ti = _.random(0, tenses.length - 1);
   pi = _.random(0, pronouns.length - 1);
   tense = tenses[ti];
@@ -124,6 +151,8 @@ ask = function() {
   $('.tense .value').text(tense);
   $('.verb .value').text(verb.infinitive);
   $('.pronoun .value').text(pronoun);
+  $('.translation .value').text(verb.translation);
+  $('.translation').toggle(((_ref3 = verb.translation) != null ? _ref3.length : void 0) > 0);
   return $('.submit').one('click', function() {
     var response;
     response = $('.response').val();
