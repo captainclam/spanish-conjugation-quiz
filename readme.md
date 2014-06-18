@@ -15,7 +15,7 @@ npm start
 
 ## Usage
 
-You will be prompted to choose what you want to study. Currently there's only 20 verbs, but with 6 prefixes and 5 tenses that's about 600 conjugations to practice.
+You will be prompted to choose what you want to study. Currently there's only 100 verbs, but with 6 prefixes and 5 tenses that's about 3000 conjugations to practice.
 
 Type `exit` to quit the program.
 
