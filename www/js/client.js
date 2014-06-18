@@ -1,6 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-(function (process){
-var answerprompts, ask, asked, correct, init, prompts, pronouns, rand, tenses, used, verbs, _,
+var ask, asked, correct, init, prompts, pronouns, rand, tenses, used, verbs, _,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 _ = require('underscore');
@@ -40,9 +39,9 @@ prompts = [
 
 init = function() {
   var button, input, label, option, pane, prompt, _i, _j, _len, _len1, _ref;
-  pane = $('.prompts');
   for (_i = 0, _len = prompts.length; _i < _len; _i++) {
     prompt = prompts[_i];
+    pane = $('<div class="prompt">');
     pane.append(prompt.message);
     _ref = prompt.choices;
     for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
@@ -54,44 +53,41 @@ init = function() {
       label = $('<label>').append(input).append(option);
       pane.append(label);
     }
+    $('.prompts').append(pane);
   }
   button = $('<button>Start Quiz</button>');
   button.one('click', function() {
-    tenses = _.map(pane.find('input[name=tenses]:checked'), function(el) {
+    var ps, ts;
+    ts = _.map($('.prompts').find('input[name=tenses]:checked'), function(el) {
       return el.value;
     });
-    pronouns = _.map(pane.find('input[name=pronouns]:checked'), function(el) {
+    ps = _.map($('.prompts').find('input[name=pronouns]:checked'), function(el) {
       return el.value;
     });
-    pane.remove();
+    tenses = tenses.map(function(t) {
+      if (ts.indexOf(t) >= 0) {
+        return t;
+      } else {
+        return null;
+      }
+    });
+    pronouns = pronouns.map(function(t) {
+      if (ps.indexOf(t) >= 0) {
+        return t;
+      } else {
+        return null;
+      }
+    });
+    $('.prompts').remove();
     $('.quiz').show();
     return ask();
   });
-  return pane.append(button);
-};
-
-answerprompts = function(answers) {
-  var readline, rl;
-  tenses = tenses.map(function(t) {
-    if (answers.a.indexOf(t) >= 0) {
-      return t;
-    } else {
-      return null;
+  $('.prompts').append(button);
+  return $('.response').keyup(function(e) {
+    if (e.keyCode === 13) {
+      return $('.submit').trigger('click');
     }
   });
-  pronouns = pronouns.map(function(t) {
-    if (answers.b.indexOf(t) >= 0) {
-      return t;
-    } else {
-      return null;
-    }
-  });
-  readline = require('readline');
-  rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  });
-  return ask();
 };
 
 asked = 0;
@@ -132,13 +128,12 @@ ask = function() {
     var response;
     response = $('.response').val();
     asked++;
-    switch (response) {
-      case answer:
-        correct++;
-        $('.result').html('CORRECT!');
-        break;
-      default:
-        $('.result').html('WRONG! Correct Answer: ' + answer);
+    $('.result').toggleClass('correct', response === answer);
+    if (response === answer) {
+      correct++;
+      $('.result').html('CORRECT!');
+    } else {
+      $('.result').html('WRONG! Correct Answer: ' + answer);
     }
     $('.score').html(correct + '/' + asked);
     $('.response').val('');
@@ -147,75 +142,7 @@ ask = function() {
 };
 
 
-}).call(this,require("FWaASH"))
-},{"./pronouns.coffee":5,"./tenses.coffee":6,"FWaASH":3,"readline":2,"underscore":4}],2:[function(require,module,exports){
-
-},{}],3:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-
-process.nextTick = (function () {
-    var canSetImmediate = typeof window !== 'undefined'
-    && window.setImmediate;
-    var canPost = typeof window !== 'undefined'
-    && window.postMessage && window.addEventListener
-    ;
-
-    if (canSetImmediate) {
-        return function (f) { return window.setImmediate(f) };
-    }
-
-    if (canPost) {
-        var queue = [];
-        window.addEventListener('message', function (ev) {
-            var source = ev.source;
-            if ((source === window || source === null) && ev.data === 'process-tick') {
-                ev.stopPropagation();
-                if (queue.length > 0) {
-                    var fn = queue.shift();
-                    fn();
-                }
-            }
-        }, true);
-
-        return function nextTick(fn) {
-            queue.push(fn);
-            window.postMessage('process-tick', '*');
-        };
-    }
-
-    return function nextTick(fn) {
-        setTimeout(fn, 0);
-    };
-})();
-
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-}
-
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-
-},{}],4:[function(require,module,exports){
+},{"./pronouns.coffee":3,"./tenses.coffee":4,"underscore":2}],2:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -1560,11 +1487,11 @@ process.chdir = function (dir) {
   }
 }).call(this);
 
-},{}],5:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 module.exports = ['yo', 'tú', 'él/ella/usted', 'nosotros', 'vosotros', 'ellos/ellas/ustedes'];
 
 
-},{}],6:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 module.exports = ['Presente', 'Pretérito', 'Imperfecto', 'Condicional', 'Futuro'];
 
 

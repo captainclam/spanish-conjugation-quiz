@@ -18,6 +18,14 @@ module.exports = (grunt) ->
       browserify:
         files: ['client.coffee']
         tasks: ['browserify']
+      livereload:
+        options:
+          livereload: true
+        files: [
+          'www/css/main.css'
+          # 'www/index.html'
+          'www/js/client.js'
+        ]
 
   grunt.loadNpmTasks 'grunt-browserify'
   grunt.loadNpmTasks 'grunt-contrib-watch'

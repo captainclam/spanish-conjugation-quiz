@@ -32,8 +32,8 @@ prompts = [
 ]
 
 init = ->
-  pane = $ '.prompts'
   for prompt in prompts
+    pane = $ '<div class="prompt">'
     pane.append prompt.message
     for option in prompt.choices
       input = $ '<input type="checkbox">'
@@ -42,38 +42,32 @@ init = ->
       input.val option
       label = $('<label>').append(input).append(option)
       pane.append label
+    $('.prompts').append pane
+
   button = $ '<button>Start Quiz</button>'
   button.one 'click', ->
-    tenses = _.map pane.find('input[name=tenses]:checked'), (el) -> el.value
-    pronouns = _.map pane.find('input[name=pronouns]:checked'), (el) -> el.value
-    pane.remove()
+    ts = _.map $('.prompts').find('input[name=tenses]:checked'), (el) -> el.value
+    ps = _.map $('.prompts').find('input[name=pronouns]:checked'), (el) -> el.value
+    tenses = tenses.map (t) ->
+      if ts.indexOf(t) >= 0
+        return t
+      else
+        return null # got to keep order/place
+    pronouns = pronouns.map (t) ->
+      if ps.indexOf(t) >= 0
+        return t
+      else
+        return null # got to keep order/place
+    $('.prompts').remove()
     $('.quiz').show()
     ask()
-  pane.append button
+  $('.prompts').append button
 
-answerprompts = (answers) ->
-
-  tenses = tenses.map (t) ->
-    if answers.a.indexOf(t) >= 0
-      return t
-    else
-      return null # got to keep order/place
-
-  pronouns = pronouns.map (t) ->
-    if answers.b.indexOf(t) >= 0
-      return t
-    else
-      return null # got to keep order/place
-
-  # console.log tenses
-  # console.log pronouns
-
-  readline = require 'readline'
-  rl = readline.createInterface
-    input: process.stdin
-    output: process.stdout  
-
-  ask()
+  $('.response').keyup (e) ->
+    # console.log e.keyCode
+    if e.keyCode is 13
+      $('.submit').trigger 'click'
+      # console.log 'ENTER'
 
 
 asked = 0
@@ -117,12 +111,13 @@ ask = ->
   $('.submit').one 'click', ->
     response = $('.response').val()
     asked++
-    switch response
-      when answer
-        correct++
-        $('.result').html 'CORRECT!'
-      else
-        $('.result').html 'WRONG! Correct Answer: ' + answer
+
+    $('.result').toggleClass 'correct', response is answer
+    if response is answer
+      correct++
+      $('.result').html 'CORRECT!'
+    else
+      $('.result').html 'WRONG! Correct Answer: ' + answer
 
     $('.score').html correct + '/' + asked
     $('.response').val('')
