@@ -20,6 +20,18 @@ You will be prompted to choose what you want to study. Currently there's only 10
 Type `exit` to quit the program.
 
 
+## Web Client
+
+To launch the web version, go:
+
+```
+cd www
+server
+```
+
+To dev on the web version, do: `grunt watch` and it will live reload style/script changes
+
+
 ## Updating the dictionary
 
 Edit the file `verbs`, and add to the list of verbs (in their infinitive form).
