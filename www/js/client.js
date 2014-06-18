@@ -1,6 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (process){
-var answerprompts, ask, asked, correct, init, prompts, pronouns, rand, tenses, used, verbs, _;
+var answerprompts, ask, asked, correct, init, prompts, pronouns, rand, tenses, used, verbs, _,
+  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 _ = require('underscore');
 
@@ -23,13 +24,13 @@ $(function() {
 
 prompts = [
   {
-    name: 'a',
+    name: 'tenses',
     message: 'Which tenses do you want to test?',
     type: 'checkbox',
     choices: tenses,
     "default": ['Presente', 'Pretérito', 'Imperfecto']
   }, {
-    name: 'b',
+    name: 'pronouns',
     message: 'Which pronouns do you want to test?',
     type: 'checkbox',
     choices: pronouns,
@@ -38,7 +39,35 @@ prompts = [
 ];
 
 init = function() {
-  return ask();
+  var button, input, label, option, pane, prompt, _i, _j, _len, _len1, _ref;
+  pane = $('.prompts');
+  for (_i = 0, _len = prompts.length; _i < _len; _i++) {
+    prompt = prompts[_i];
+    pane.append(prompt.message);
+    _ref = prompt.choices;
+    for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+      option = _ref[_j];
+      input = $('<input type="checkbox">');
+      input.attr('name', prompt.name);
+      input.prop('checked', __indexOf.call(prompt["default"], option) >= 0);
+      input.val(option);
+      label = $('<label>').append(input).append(option);
+      pane.append(label);
+    }
+  }
+  button = $('<button>Start Quiz</button>');
+  button.one('click', function() {
+    tenses = _.map(pane.find('input[name=tenses]:checked'), function(el) {
+      return el.value;
+    });
+    pronouns = _.map(pane.find('input[name=pronouns]:checked'), function(el) {
+      return el.value;
+    });
+    pane.remove();
+    $('.quiz').show();
+    return ask();
+  });
+  return pane.append(button);
 };
 
 answerprompts = function(answers) {

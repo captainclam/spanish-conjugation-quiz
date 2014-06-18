@@ -16,14 +16,14 @@ $ ->
 
 prompts = [
   {
-    name: 'a'
+    name: 'tenses'
     message: 'Which tenses do you want to test?'
     type: 'checkbox'
     choices: tenses
     default: ['Presente', 'Pretérito', 'Imperfecto']
   }
   {
-    name: 'b'
+    name: 'pronouns'
     message: 'Which pronouns do you want to test?'
     type: 'checkbox'
     choices: pronouns
@@ -32,7 +32,24 @@ prompts = [
 ]
 
 init = ->
-  ask()
+  pane = $ '.prompts'
+  for prompt in prompts
+    pane.append prompt.message
+    for option in prompt.choices
+      input = $ '<input type="checkbox">'
+      input.attr 'name', prompt.name
+      input.prop 'checked', option in prompt.default
+      input.val option
+      label = $('<label>').append(input).append(option)
+      pane.append label
+  button = $ '<button>Start Quiz</button>'
+  button.one 'click', ->
+    tenses = _.map pane.find('input[name=tenses]:checked'), (el) -> el.value
+    pronouns = _.map pane.find('input[name=pronouns]:checked'), (el) -> el.value
+    pane.remove()
+    $('.quiz').show()
+    ask()
+  pane.append button
 
 answerprompts = (answers) ->
 

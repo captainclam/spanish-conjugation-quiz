@@ -11,6 +11,15 @@ module.exports = (grunt) ->
           transform: ['coffeeify']
           extensions: '.coffee'
 
-  grunt.loadNpmTasks 'grunt-browserify'  
+    watch:
+      # stylus:
+      #   files: ['styles/*.styl']
+      #   tasks: ['stylus']
+      browserify:
+        files: ['client.coffee']
+        tasks: ['browserify']
+
+  grunt.loadNpmTasks 'grunt-browserify'
+  grunt.loadNpmTasks 'grunt-contrib-watch'
 
   grunt.registerTask 'default', ['browserify']

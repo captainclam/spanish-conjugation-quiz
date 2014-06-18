@@ -5,3 +5,11 @@ body {
   color: #333;
   line-height: 1.8;
 }
+
+.quiz {
+  display: none;
+}
+
+.prompts label {
+  display: block;
+}
