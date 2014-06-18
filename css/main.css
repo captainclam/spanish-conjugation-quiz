@@ -11,6 +11,10 @@ body {
   display: none;
 }
 
+label input {
+  margin-right: 10px;
+}
+
 .prompt {
   margin-bottom: 40px;
 }
@@ -27,4 +31,19 @@ body {
 
 input, button {
   font-size: 30px;
+}
+
+.using-verbs {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8%;
+  min-width: 200px;
+  background: #f5f5f5;
+  padding: 1% 2%;
+  height: 100%;
+  overflow: scroll;
+}
+.using-verbs label {
+  display: block;
 }
