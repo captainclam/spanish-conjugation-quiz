@@ -32,6 +32,14 @@ label input {
 input, button {
   font-size: 30px;
 }
+input.response {
+  padding: 10px;
+  margin: 20px 0;
+}
+button.submit {
+  width: 200px;
+  text-transform: uppercase;
+}
 
 .using-verbs {
   position: absolute;
@@ -50,7 +58,9 @@ input, button {
 
 .show-prompts {
   font-size: 20px;
-  float: right;
+  position: absolute;
+  right: 20%;
+  top: 20px;
 }
 
 .toggle-all {
