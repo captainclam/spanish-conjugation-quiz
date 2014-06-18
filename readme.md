@@ -47,6 +47,7 @@ Note if you get some bad/empty responses from spanishdict.com you may need to ru
 
 ## TODO / Ideas
 
-- Conjugation tables using cli-table for hints
+- Conjugation tables for hints
 - Highlight irregular verbs
-- Have the english translation of the infinitive
+- Scrape english translation of the infinitive
+- Remove livereload in prod
