@@ -1,6 +1,10 @@
 # Spanish Quiz
 
-Nothing like duolingo. Merely a rapid fire command line quiz game. mostly for practicing conjugating verbs but really it could do anything.
+Nothing like duolingo. This is just a quiz game for practicing conjugating verbs:
+
+Web version available here: http://captainclam.github.io/spanish-conjugation-quiz/
+
+Command line version requires download: (see Installation below)
 
 ![screenshots](anim.gif)
 
@@ -22,7 +26,7 @@ Type `exit` to quit the program.
 
 ## Web Client
 
-To launch the web version, go:
+To launch the web version locally, go:
 
 ```
 cd www
