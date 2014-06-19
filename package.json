@@ -13,17 +13,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "async": "0.9.0",
-    "browserify": "^4.1.10",
-    "cli-color": "0.3.2",
-    "coffeeify": "^0.6.0",
-    "grunt": "^0.4.5",
-    "grunt-browserify": "^2.1.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "inquirer": "0.5.1",
-    "jQuery": "1.7.4",
-    "jsdom": "0.11.0",
-    "request": "2.36.0",
+    "async": "*",
+    "browserify": "*",
+    "cli-color": "*",
+    "coffeeify": "^*",
+    "grunt": "^*",
+    "grunt-browserify": "*",
+    "grunt-contrib": "*",
+    "inquirer": "*",
+    "jQuery": "*",
+    "jsdom": "*",
+    "request": "*",
     "underscore": "*"
   }
 }
