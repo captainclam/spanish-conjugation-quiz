@@ -5,25 +5,33 @@ body {
   font-size: 20px;
   line-height: 1.8;
   margin: 0 auto;
-  background: #6e91a1;
+  background: #6E91A1;
   color: #111;
-  color: #eee;
+  color: #EEE;
   text-shadow: 1px 1px rgba(0,0,0,0.5);
 }
+
 h1 {
   text-shadow: 4px 4px rgba(0,0,0,0.2);
-  font-size: 32px;
+  font-size: 32px
 }
+
 .pane {
   border: 1px solid #022636;
-  padding: 20px;
-  background: rgba(0,0,0,0.1);
+  padding: 20px;  
+  // background: #27576B;
+  background: rgba(0,0,0,0.1)
 }
+
 .quiz {
   display: none;
 }
+
 label input {
   margin-right: 10px;
+}
+
+.prompts {
 }
 .dark .prompts {
   background: #333;
@@ -34,14 +42,15 @@ label input {
 .prompts label {
   display: block;
 }
+
 .result {
-  color: #f00;
+  color: red;
 }
 .result.correct {
-  color: #008000;
+  color: green;
 }
-input,
-button {
+
+input, button {
   font-size: 30px;
 }
 input.response {
@@ -56,6 +65,7 @@ button.big {
   min-width: 220px;
   text-transform: uppercase;
 }
+
 .using-verbs {
   position: absolute;
   top: 0;
@@ -70,12 +80,14 @@ button.big {
 .using-verbs label {
   display: block;
 }
+
 .show-prompts {
   font-size: 20px;
   position: absolute;
   right: 20%;
   top: 20px;
 }
+
 .toggle-all {
   font-weight: bold;
 }
