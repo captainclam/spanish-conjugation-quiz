@@ -9,9 +9,11 @@ body {
   color: #111;
   color: #eee;
   text-shadow: 1px 1px rgba(0,0,0,0.5);
+  font-size: 18px;
 }
 h1 {
-  text-shadow: 4px 4px rgba(0,0,0,0.2);
+  font-family: 'Source Sans Pro', sans-serif;
+  text-shadow: 2px 2px rgba(0,0,0,0.2);
   font-size: 38px;
 }
 .pane {
@@ -39,7 +41,6 @@ label input {
 }
 .result {
   font-size: 30px;
-  padding: 10px 0;
   color: #c33;
   font-weight: bold;
 }
@@ -56,9 +57,18 @@ input.response {
   background: #467386;
 }
 button {
+  border-radius: 2px;
+  border: none;
   background: #022636;
   padding-left: 20px;
   padding-right: 20px;
+}
+button:hover {
+  background: #01131b;
+  text-shadow: 1px 1px rgba(255,255,255,0.2);
+}
+button .fa.right {
+  margin-left: 10px;
 }
 button.big {
   text-transform: uppercase;
@@ -85,4 +95,7 @@ button.big {
 }
 .toggle-all {
   font-weight: bold;
+}
+.score {
+  float: right;
 }
