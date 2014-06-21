@@ -8,7 +8,7 @@
     "url": "git://github.com/captainclam/spanish-conjugation-quiz.git"
   },
   "scripts": {
-    "start": "coffee index.coffee"
+    "start": "coffee repl.coffee"
   },
   "author": "",
   "license": "ISC",

@@ -49,7 +49,7 @@ inquirer.prompt [
   readline = require 'readline'
   rl = readline.createInterface
     input: process.stdin
-    output: process.stdout  
+    output: process.stdout
 
   # process.stdout.write '\u001B[2J\u001B[0;0f'
 
@@ -95,20 +95,20 @@ ask = ->
     asked++
     switch response
       when 'skip'
-        console.log 'skipped'
-        ask()
+	console.log 'skipped'
+	ask()
       when 'exit', 'quit'
-        console.log clc.magentaBright '\n¡Adiós!\n'
-        return rl.close()
+	console.log clc.magentaBright '\n¡Adiós!\n'
+	return rl.close()
       when answer
-        correct++
-        console.log clc.green 'CORRECT!'
-        console.log correct + '/' + asked
-        console.log ''
-        ask()
+	correct++
+	console.log clc.green 'CORRECT!'
+	console.log correct + '/' + asked
+	console.log ''
+	ask()
       else
-        console.log clc.red 'WRONG!'
-        console.log 'Correct Answer:', answer
-        console.log correct + '/' + asked
-        console.log ''
-        ask()
+	console.log clc.red 'WRONG!'
+	console.log 'Correct Answer:', answer
+	console.log correct + '/' + asked
+	console.log ''
+	ask()
