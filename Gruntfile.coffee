@@ -32,7 +32,7 @@ module.exports = (grunt) ->
           livereload: true
         files: [
           'www/css/main.css'
-          # 'www/index.html'
+          'www/index.html'
           'www/js/client.js'
         ]
 

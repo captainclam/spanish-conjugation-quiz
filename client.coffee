@@ -78,7 +78,7 @@ ask = ->
   $('.tense .value').text tense
   $('.verb .value').text verb.infinitive
   $('.pronoun .value').text pronoun
-  $('.translation .value').text verb.translation
+  $('.translation').text '(' + verb.translation + ')'
 
   $('.translation').toggle verb.translation?.length > 0
 

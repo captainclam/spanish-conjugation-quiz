@@ -105,7 +105,7 @@ ask = function() {
   $('.tense .value').text(tense);
   $('.verb .value').text(verb.infinitive);
   $('.pronoun .value').text(pronoun);
-  $('.translation .value').text(verb.translation);
+  $('.translation').text('(' + verb.translation + ')');
   $('.translation').toggle(((_ref = verb.translation) != null ? _ref.length : void 0) > 0);
   $('.submit').off('click');
   return $('.submit').one('click', function() {
