@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var ask, asked, correct, init, prompts, pronouns, rand, tenses, toggleQuiz, verbs,
+var ask, asked, correct, init, prompts, pronouns, rand, tenses, toggleQuiz, usingPronouns, usingTenses, verbs,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 window._ = require('underscore');
@@ -9,6 +9,10 @@ tenses = require('./tenses.coffee');
 pronouns = require('./pronouns.coffee');
 
 window.usingVerbs = JSON.parse(localStorage.getItem('usingVerbs'));
+
+usingTenses = JSON.parse(localStorage.getItem('usingTenses'));
+
+usingPronouns = JSON.parse(localStorage.getItem('usingPronouns'));
 
 verbs = null;
 
@@ -21,12 +25,12 @@ prompts = [
     name: 'tenses',
     message: 'Which tenses do you want to test?',
     choices: tenses,
-    "default": ['Presente', 'Pretérito', 'Imperfecto']
+    "default": usingTenses || ['Presente', 'Pretérito', 'Imperfecto']
   }, {
     name: 'pronouns',
     message: 'Which pronouns do you want to test?',
     choices: pronouns,
-    "default": _.without(pronouns, 'vosotros')
+    "default": usingPronouns || _.without(pronouns, 'vosotros')
   }
 ];
 
@@ -160,6 +164,8 @@ $(function() {
         return null;
       }
     });
+    localStorage.setItem('usingTenses', JSON.stringify(tenses));
+    localStorage.setItem('usingPronouns', JSON.stringify(pronouns));
     toggleQuiz();
     return ask();
   });

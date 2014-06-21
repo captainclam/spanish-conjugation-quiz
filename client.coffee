@@ -3,6 +3,10 @@ tenses = require './tenses.coffee'
 pronouns =  require './pronouns.coffee'
 
 window.usingVerbs = JSON.parse localStorage.getItem('usingVerbs') # for filtering
+
+usingTenses = JSON.parse localStorage.getItem('usingTenses')
+usingPronouns = JSON.parse localStorage.getItem('usingPronouns')
+
 verbs = null
 asked = 0
 correct = 0
@@ -12,13 +16,13 @@ prompts = [
     name: 'tenses'
     message: 'Which tenses do you want to test?'
     choices: tenses
-    default: ['Presente', 'Pretérito', 'Imperfecto']
+    default: usingTenses or ['Presente', 'Pretérito', 'Imperfecto']
   }
   {
     name: 'pronouns'
     message: 'Which pronouns do you want to test?'
     choices: pronouns
-    default: _.without pronouns, 'vosotros'
+    default: usingPronouns or _.without pronouns, 'vosotros'
   }
 ]
 
@@ -114,6 +118,8 @@ $ ->
     ps = _.map $('.prompts').find('input[name=pronouns]:checked'), (el) -> el.value
     tenses = tenses.map (t) -> if ts.indexOf(t) >= 0 then t else null
     pronouns = pronouns.map (t) -> if ps.indexOf(t) >= 0 then t else null
+    localStorage.setItem 'usingTenses', JSON.stringify tenses
+    localStorage.setItem 'usingPronouns', JSON.stringify pronouns
     toggleQuiz()
     ask()
 
