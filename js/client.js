@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var ask, asked, correct, init, prompts, pronouns, rand, tenses, used, verbs,
+var ask, asked, correct, init, prompts, pronouns, rand, tenses, toggleQuiz, verbs,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 window._ = require('underscore');
@@ -12,47 +12,43 @@ window.usingVerbs = JSON.parse(localStorage.getItem('usingVerbs'));
 
 verbs = null;
 
-$(function() {
-  return $.ajax({
-    dataType: "json",
-    url: 'dict.json',
-    success: function(data) {
-      if (window.usingVerbs == null) {
-        window.usingVerbs = _.pluck(data, 'infinitive').slice(0, 10);
-      }
-      verbs = data;
-      return init();
-    }
-  });
-});
+asked = 0;
+
+correct = 0;
 
 prompts = [
   {
     name: 'tenses',
     message: 'Which tenses do you want to test?',
-    type: 'checkbox',
     choices: tenses,
     "default": ['Presente', 'Pretérito', 'Imperfecto']
   }, {
     name: 'pronouns',
     message: 'Which pronouns do you want to test?',
-    type: 'checkbox',
     choices: pronouns,
     "default": _.without(pronouns, 'vosotros')
   }
 ];
 
+toggleQuiz = function() {
+  $('.prompts').toggle();
+  return $('.quiz').toggle();
+};
+
 init = function() {
-  var button, input, label, option, pane, prompt, verb, verbPane, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
+  var input, label, option, pane, prompt, verb, verbPane, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _results;
   verbPane = $('.using-verbs');
-  verbPane.on('change', 'input', function() {
-    var using;
+  verbPane.on('change', 'input', function(e) {
+    var checked, using;
+    if ($(e.currentTarget).hasClass('select-all')) {
+      checked = $(e.currentTarget).prop('checked');
+      verbPane.find('input').prop('checked', checked);
+    }
     using = _.map($('.using-verbs input:checked'), function(el) {
       return el.value;
     });
     window.usingVerbs = using;
-    localStorage.setItem('usingVerbs', JSON.stringify(using));
-    return console.log('change inputs', using);
+    return localStorage.setItem('usingVerbs', JSON.stringify(using));
   });
   for (_i = 0, _len = verbs.length; _i < _len; _i++) {
     verb = verbs[_i];
@@ -63,6 +59,7 @@ init = function() {
     label.prepend(input);
     verbPane.append(label);
   }
+  _results = [];
   for (_j = 0, _len1 = prompts.length; _j < _len1; _j++) {
     prompt = prompts[_j];
     pane = $('<div class="prompt">');
@@ -77,10 +74,71 @@ init = function() {
       label = $('<label>').append(input).append(option);
       pane.append(label);
     }
-    $('.prompts').append(pane);
+    _results.push($('.prompts').prepend(pane));
   }
-  button = $('<button>Start Quiz</button>');
-  button.one('click', function() {
+  return _results;
+};
+
+rand = function(arr) {
+  var index;
+  if (!arr.length) {
+    return null;
+  }
+  index = _.random(0, arr.length - 1);
+  return arr[index];
+};
+
+ask = function() {
+  var pi, pronoun, tense, ti, verb, _ref;
+  $('.response').focus();
+  verb = rand(_.filter(verbs, function(v) {
+    var _ref;
+    return _ref = v.infinitive, __indexOf.call(usingVerbs, _ref) >= 0;
+  }));
+  ti = _.random(0, tenses.length - 1);
+  pi = _.random(0, pronouns.length - 1);
+  tense = tenses[ti];
+  pronoun = pronouns[pi];
+  if (!((tense != null) && (pronoun != null))) {
+    return ask();
+  }
+  $('.tense .value').text(tense);
+  $('.verb .value').text(verb.infinitive);
+  $('.pronoun .value').text(pronoun);
+  $('.translation').text('(' + verb.translation + ')');
+  $('.translation').toggle(((_ref = verb.translation) != null ? _ref.length : void 0) > 0);
+  $('.submit').off('click');
+  return $('.submit').one('click', function() {
+    var answer, response, _ref1, _ref2, _ref3;
+    response = $('.response').val();
+    asked++;
+    answer = (_ref1 = verb.conjugations) != null ? (_ref2 = _ref1[pi]) != null ? (_ref3 = _ref2[ti]) != null ? typeof _ref3.trim === "function" ? _ref3.trim() : void 0 : void 0 : void 0 : void 0;
+    $('.result').toggleClass('correct', response === answer);
+    if (response === answer) {
+      correct++;
+      $('.result').html('CORRECT!');
+    } else {
+      $('.result').html('WRONG! Correct Answer: ' + answer);
+    }
+    $('.score').html(correct + '/' + asked);
+    $('.response').val('');
+    return ask();
+  });
+};
+
+$(function() {
+  $.ajax({
+    dataType: 'json',
+    url: 'dict.json',
+    success: function(data) {
+      if (window.usingVerbs == null) {
+        window.usingVerbs = _.pluck(data, 'infinitive').slice(0, 10);
+      }
+      verbs = data;
+      return init();
+    }
+  });
+  $('.start-quiz').on('click', function() {
     var ps, ts;
     ts = _.map($('.prompts').find('input[name=tenses]:checked'), function(el) {
       return el.value;
@@ -102,73 +160,16 @@ init = function() {
         return null;
       }
     });
-    $('.prompts').remove();
-    $('.quiz').show();
+    toggleQuiz();
     return ask();
   });
-  $('.prompts').append(button);
+  $('.show-prompts').click(toggleQuiz);
   return $('.response').keyup(function(e) {
     if (e.keyCode === 13) {
       return $('.submit').trigger('click');
     }
   });
-};
-
-asked = 0;
-
-correct = 0;
-
-used = [];
-
-rand = function(arr) {
-  var index;
-  if (!arr.length) {
-    return null;
-  }
-  index = _.random(0, arr.length - 1);
-  return arr[index];
-};
-
-ask = function() {
-  var answer, pi, pronoun, question, tense, ti, verb, _ref, _ref1, _ref2, _ref3;
-  verb = rand(_.filter(verbs, function(v) {
-    var _ref;
-    return _ref = v.infinitive, __indexOf.call(usingVerbs, _ref) >= 0;
-  }));
-  ti = _.random(0, tenses.length - 1);
-  pi = _.random(0, pronouns.length - 1);
-  tense = tenses[ti];
-  pronoun = pronouns[pi];
-  if (!((tense != null) && pronoun)) {
-    return ask();
-  }
-  answer = (_ref = verb.conjugations) != null ? (_ref1 = _ref[pi]) != null ? (_ref2 = _ref1[ti]) != null ? typeof _ref2.trim === "function" ? _ref2.trim() : void 0 : void 0 : void 0 : void 0;
-  question = [tense, verb.infinitive, pronoun, ''].join(' : ');
-  if (_.contains(used, question)) {
-    return ask();
-  }
-  used.push(question);
-  $('.tense .value').text(tense);
-  $('.verb .value').text(verb.infinitive);
-  $('.pronoun .value').text(pronoun);
-  $('.translation .value').text(verb.translation);
-  $('.translation').toggle(((_ref3 = verb.translation) != null ? _ref3.length : void 0) > 0);
-  return $('.submit').one('click', function() {
-    var response;
-    response = $('.response').val();
-    asked++;
-    $('.result').toggleClass('correct', response === answer);
-    if (response === answer) {
-      correct++;
-      $('.result').html('CORRECT!');
-    } else {
-      $('.result').html('WRONG! Correct Answer: ' + answer);
-    }
-    $('.score').html(correct + '/' + asked);
-    $('.response').val('');
-    return ask();
-  });
-};
+});
 
 
 },{"./pronouns.coffee":3,"./tenses.coffee":4,"underscore":2}],2:[function(require,module,exports){

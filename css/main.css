@@ -1,49 +1,88 @@
+/* http://paletton.com/#uid=13r0u0kllllaFw0g0qFqFg0w0aF */
 body {
-  width: 800px;
-  font-family: Verdana;
+  width: 680px;
+  font-family: Helvetica;
   font-size: 20px;
-  color: #333;
   line-height: 1.8;
   margin: 0 auto;
+  background: #6e91a1;
+  color: #111;
+  color: #eee;
+  text-shadow: 1px 1px rgba(0,0,0,0.5);
 }
-
+h1 {
+  text-shadow: 4px 4px rgba(0,0,0,0.2);
+  font-size: 38px;
+}
+.pane {
+  border: 1px solid rgba(0,0,0,0.3);
+  padding: 20px;
+  background: rgba(0,0,0,0.1);
+}
 .quiz {
   display: none;
 }
-
 label input {
   margin-right: 10px;
 }
-
+.pronoun {
+  float: left;
+  font-size: 30px;
+  margin-right: 20px;
+  line-height: 80px;
+}
 .prompt {
   margin-bottom: 40px;
 }
 .prompts label {
   display: block;
 }
-
 .result {
-  color: red;
+  font-size: 30px;
+  padding: 10px 0;
+  color: #c33;
+  font-weight: bold;
 }
 .result.correct {
-  color: green;
+  color: #008000;
 }
-
-input, button {
-  font-size: 30px;
+input,
+button {
+  font-size: 20px;
 }
-
+input.response {
+  padding: 10px;
+  margin: 20px 0;
+  background: #467386;
+}
+button {
+  background: #022636;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+button.big {
+  text-transform: uppercase;
+}
 .using-verbs {
   position: absolute;
   top: 0;
   right: 0;
   width: 8%;
   min-width: 200px;
-  background: #f5f5f5;
+  background: rgba(0,0,0,0.2);
   padding: 1% 2%;
   height: 100%;
   overflow: scroll;
 }
 .using-verbs label {
   display: block;
+}
+.show-prompts {
+  font-size: 20px;
+  position: absolute;
+  right: 20%;
+  top: 20px;
+}
+.toggle-all {
+  font-weight: bold;
 }
