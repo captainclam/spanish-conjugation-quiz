@@ -24,5 +24,8 @@
     "jsdom": "*",
     "request": "*",
     "underscore": "*"
+  },
+  "devDependencies": {
+    "grunt-contrib-connect": "^0.8.0"
   }
 }

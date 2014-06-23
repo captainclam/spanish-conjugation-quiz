@@ -5,6 +5,14 @@ module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
 
+    connect:
+      server:
+        options:
+          port: 3000
+          hostname: '*'
+          base: 'www'
+          # keepalive: true
+
     stylus:
       compile:
         options:
@@ -39,5 +47,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-browserify'
   grunt.loadNpmTasks 'grunt-contrib-stylus'
   grunt.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadNpmTasks 'grunt-contrib-connect'
 
   grunt.registerTask 'default', ['browserify', 'stylus']
+  grunt.registerTask 'server', ['connect', 'watch']
