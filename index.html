@@ -14,11 +14,7 @@
 </head>
 <body>
   <!-- <img src="http://upload.wikimedia.org/wikipedia/en/thumb/9/9a/Flag_of_Spain.svg/120px-Flag_of_Spain.svg.png" alt=""> -->
-  <h1>Spanish Conjugation Practice</h1>
-
-  <button class="tooltip toggle-verbs" title="verbs">
-    <i class="fa fa-bars"></i>
-  </button>
+  <!-- <h1>Spanish Conjugation Practice</h1> -->
 
   <nav>
     <button class="tooltip toggle-translate" title="translation">
@@ -27,9 +23,13 @@
     <button class="show-prompts">
       <i class="fa fa-gear"></i>
     </button>
+    <button class="tooltip toggle-verbs" title="verbs">
+      <i class="fa fa-bars"></i>
+    </button>
   </nav>
 
   <div class="using-verbs">
+    <h2>Verbs</h2>
     <label><input type="checkbox" class="select-all">Toggle All</label>
   </div>
 
@@ -41,11 +41,20 @@
     <div class="translation"></div>
   </div>
 
+  <div class="pane tenses">
+    <div class="flex">
+    <div class="tense">Presente</div>
+    <div class="tense">Pretérito</div>
+    <div class="tense">Imperfecto</div>
+    <div class="tense active">Condicional</div>
+    <div class="tense">Futuro</div>
+    </div>
+  </div>
   <div class="prompts pane">
     <button class="start-quiz big">Start Quiz <i class="fa fa-arrow-circle-right right"></i></button></div>
   <div class="quiz pane">
     <div class="score"></div>
-    <div class="tense">Tense: <span class="value"></span></div>
+    <!-- <div class="tense">Tense: <span class="value"></span></div> -->
     <div class="verb">Verb: <span class="value"></span> <span class="translation"></span></div>
     <div class="pronoun"><span class="value"></span></div>
     <input class="response">

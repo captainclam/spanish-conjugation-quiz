@@ -84,11 +84,12 @@ toggleTranslate = function() {
 
 toggleQuiz = function() {
   $('.prompts').toggle();
-  return $('.quiz').toggle();
+  $('.quiz').toggle();
+  return $('.tenses').toggle();
 };
 
 init = function() {
-  var input, label, pane, prompt, verb, verbPane, _i, _j, _len, _len1, _ref, _results;
+  var input, label, pane, prompt, verb, verbPane, _i, _j, _len, _len1, _ref;
   verbPane = $('.using-verbs');
   verbPane.on('change', 'input', function(e) {
     var checked, using;
@@ -111,7 +112,6 @@ init = function() {
     label.prepend(input);
     verbPane.append(label);
   }
-  _results = [];
   for (_j = 0, _len1 = prompts.length; _j < _len1; _j++) {
     prompt = prompts[_j];
     pane = $('<div class="prompt">');
@@ -124,20 +124,20 @@ init = function() {
       input.on('change', function() {
         return store(prompt.name, input.prop('checked'));
       });
-      _results.push(input.prop('checked', prompt["default"]));
+      input.prop('checked', prompt["default"]);
     } else {
       pane.text(prompt.message);
-      _results.push(_.each(prompt.choices, function(option) {
+      _.each(prompt.choices, function(option) {
         input = $('<input type="checkbox">');
         input.attr('name', prompt.name);
         label = $('<label>').append(input).append(option);
         pane.append(label);
         input.prop('checked', __indexOf.call(prompt["default"], option) >= 0);
         return input.val(option);
-      }));
+      });
     }
   }
-  return _results;
+  return $('.prompts').prepend('<h2>Settings</h2>');
 };
 
 rand = function(arr) {
@@ -181,11 +181,12 @@ ask = function() {
   if (!((tense != null) && (pronoun != null))) {
     return ask();
   }
-  $('.tense .value').text(tense);
+  $('.tense').removeClass('active');
+  $(".tense:contains(" + tense + ")").addClass('active');
   $('.verb .value').text(verb.infinitive);
   $('.pronoun .value').text(pronoun);
-  $('.translation').text('(' + verb.translation + ')');
-  $('.translation').toggle(((_ref = verb.translation) != null ? _ref.length : void 0) > 0);
+  $('.quiz .translation').text('(' + verb.translation + ')');
+  $('.quiz .translation').toggle(((_ref = verb.translation) != null ? _ref.length : void 0) > 0);
   $('.quiz .submit').off('click');
   return $('.quiz .submit').one('click', function() {
     var answer, response, right, _ref1, _ref2, _ref3;
