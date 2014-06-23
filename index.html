@@ -3,36 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <title>Spanish Conjugation Quiz</title>
+  <script src="js/keymaster.js"></script>
   <script src="js/jquery.min.js"></script>
   <script src="js/client.js"></script>
   <script src="http://localhost:35729/livereload.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/normalize.css">
   <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
-  <h1>
-    <i class="fa fa-comments"></i>
-    Spanish Conjugation Practice
-  </h1>
+  <!-- <img src="http://upload.wikimedia.org/wikipedia/en/thumb/9/9a/Flag_of_Spain.svg/120px-Flag_of_Spain.svg.png" alt=""> -->
+  <h1>Spanish Conjugation Practice</h1>
+
+  <button class="tooltip toggle-verbs" title="verbs">
+    <i class="fa fa-bars"></i>
+  </button>
+
+  <nav>
+    <button class="tooltip toggle-translate" title="translation">
+      <i class="fa fa-search"></i>
+    </button>
+    <button class="show-prompts">
+      <i class="fa fa-gear"></i>
+    </button>
+  </nav>
+
   <div class="using-verbs">
     <label><input type="checkbox" class="select-all">Toggle All</label>
   </div>
-  <div class="prompts pane">
-    <button class="start-quiz big">
-      <!-- <i class="fa fa-gear fa-spin"></i> -->
-      Start Quiz
-    </button>
+
+  <div class="translate pane">
+    <i class="fa fa-times close-pane"></i>
+    <h2>Translate</h2>
+    <input type="text" class="response">
+    <button class="submit"><i class="fa fa-arrow-circle-right"></i></button>    
+    <div class="translation"></div>
   </div>
+
+  <div class="prompts pane">
+    <button class="start-quiz big">Start Quiz <i class="fa fa-arrow-circle-right right"></i></button></div>
   <div class="quiz pane">
-    <button class="show-prompts">Menu</button>
+    <div class="score"></div>
     <div class="tense">Tense: <span class="value"></span></div>
     <div class="verb">Verb: <span class="value"></span> <span class="translation"></span></div>
     <div class="pronoun"><span class="value"></span></div>
     <input class="response">
     <button class="submit"><i class="fa fa-arrow-circle-right"></i></button>
     <div class="result"></div>
-    <div class="score"></div>
   </div>
 </body>
 </html>

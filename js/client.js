@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var ask, asked, correct, init, prompts, pronouns, rand, tenses, toggleQuiz, verbs,
+var allPronouns, allTenses, ask, asked, correct, init, normalise, prompts, pronouns, rand, retrieve, store, tenses, toggleQuiz, toggleTranslate, translate, usingPronouns, usingTenses, verbs,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 window._ = require('underscore');
@@ -8,7 +8,23 @@ tenses = require('./tenses.coffee');
 
 pronouns = require('./pronouns.coffee');
 
-window.usingVerbs = JSON.parse(localStorage.getItem('usingVerbs'));
+allTenses = _.clone(tenses);
+
+allPronouns = _.clone(pronouns);
+
+retrieve = function(k) {
+  return JSON.parse(localStorage.getItem(k));
+};
+
+store = function(k, v) {
+  return localStorage.setItem(k, JSON.stringify(v));
+};
+
+window.usingVerbs = retrieve('usingVerbs');
+
+usingTenses = retrieve('usingTenses');
+
+usingPronouns = retrieve('usingPronouns');
 
 verbs = null;
 
@@ -21,14 +37,50 @@ prompts = [
     name: 'tenses',
     message: 'Which tenses do you want to test?',
     choices: tenses,
-    "default": ['Presente', 'Pretérito', 'Imperfecto']
+    "default": usingTenses || ['Presente', 'Pretérito', 'Imperfecto']
   }, {
     name: 'pronouns',
     message: 'Which pronouns do you want to test?',
     choices: pronouns,
-    "default": _.without(pronouns, 'vosotros')
+    "default": usingPronouns || _.without(pronouns, 'vosotros')
+  }, {
+    name: 'strict',
+    message: 'Strict accents? (requires áéíóñ instead of aeion)',
+    type: 'flag',
+    "default": retrieve('strict')
   }
 ];
+
+translate = function(str) {
+  var arr, pi, pronoun, tense, verb, _i, _j, _len, _len1, _ref;
+  verb = _.findWhere(verbs, {
+    infinitive: str
+  });
+  if (verb) {
+    return verb.translation;
+  } else {
+    for (_i = 0, _len = verbs.length; _i < _len; _i++) {
+      verb = verbs[_i];
+      _ref = verb.conjugations;
+      for (pi = _j = 0, _len1 = _ref.length; _j < _len1; pi = ++_j) {
+        arr = _ref[pi];
+        if (__indexOf.call(arr, str) >= 0) {
+          pronoun = allPronouns[pi];
+          tense = allTenses[arr.indexOf(str)];
+          return "" + verb.translation + " (" + verb.infinitive + ", " + pronoun + ", " + tense + ")";
+        }
+      }
+    }
+  }
+};
+
+toggleTranslate = function() {
+  $('.translate.pane').toggle();
+  if ($('.translate.pane').is(':visible')) {
+    $('.translate.pane input').select();
+    return false;
+  }
+};
 
 toggleQuiz = function() {
   $('.prompts').toggle();
@@ -36,7 +88,7 @@ toggleQuiz = function() {
 };
 
 init = function() {
-  var input, label, option, pane, prompt, verb, verbPane, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _results;
+  var input, label, pane, prompt, verb, verbPane, _i, _j, _len, _len1, _ref, _results;
   verbPane = $('.using-verbs');
   verbPane.on('change', 'input', function(e) {
     var checked, using;
@@ -63,18 +115,27 @@ init = function() {
   for (_j = 0, _len1 = prompts.length; _j < _len1; _j++) {
     prompt = prompts[_j];
     pane = $('<div class="prompt">');
-    pane.append(prompt.message);
-    _ref1 = prompt.choices;
-    for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
-      option = _ref1[_k];
+    $('.prompts').prepend(pane);
+    if (prompt.type === 'flag') {
       input = $('<input type="checkbox">');
       input.attr('name', prompt.name);
-      input.prop('checked', __indexOf.call(prompt["default"], option) >= 0);
-      input.val(option);
-      label = $('<label>').append(input).append(option);
-      pane.append(label);
+      label = $('<label>').append(input).append(prompt.message);
+      pane.html(label);
+      input.on('change', function() {
+        return store(prompt.name, input.prop('checked'));
+      });
+      _results.push(input.prop('checked', prompt["default"]));
+    } else {
+      pane.text(prompt.message);
+      _results.push(_.each(prompt.choices, function(option) {
+        input = $('<input type="checkbox">');
+        input.attr('name', prompt.name);
+        label = $('<label>').append(input).append(option);
+        pane.append(label);
+        input.prop('checked', __indexOf.call(prompt["default"], option) >= 0);
+        return input.val(option);
+      }));
     }
-    _results.push($('.prompts').prepend(pane));
   }
   return _results;
 };
@@ -88,9 +149,27 @@ rand = function(arr) {
   return arr[index];
 };
 
+normalise = function(str) {
+  var k, regexp, replaces, v;
+  str = str.toLowerCase();
+  replaces = {
+    'á': 'a',
+    'é': 'e',
+    'í': 'i',
+    'ó': 'o',
+    'ñ': 'n'
+  };
+  for (k in replaces) {
+    v = replaces[k];
+    regexp = new RegExp(k, 'gi');
+    str = str.replace(regexp, v);
+  }
+  return str;
+};
+
 ask = function() {
   var pi, pronoun, tense, ti, verb, _ref;
-  $('.response').focus();
+  $('.quiz .response').focus();
   verb = rand(_.filter(verbs, function(v) {
     var _ref;
     return _ref = v.infinitive, __indexOf.call(usingVerbs, _ref) >= 0;
@@ -107,21 +186,26 @@ ask = function() {
   $('.pronoun .value').text(pronoun);
   $('.translation').text('(' + verb.translation + ')');
   $('.translation').toggle(((_ref = verb.translation) != null ? _ref.length : void 0) > 0);
-  $('.submit').off('click');
-  return $('.submit').one('click', function() {
-    var answer, response, _ref1, _ref2, _ref3;
+  $('.quiz .submit').off('click');
+  return $('.quiz .submit').one('click', function() {
+    var answer, response, right, _ref1, _ref2, _ref3;
     response = $('.response').val();
     asked++;
     answer = (_ref1 = verb.conjugations) != null ? (_ref2 = _ref1[pi]) != null ? (_ref3 = _ref2[ti]) != null ? typeof _ref3.trim === "function" ? _ref3.trim() : void 0 : void 0 : void 0 : void 0;
-    $('.result').toggleClass('correct', response === answer);
-    if (response === answer) {
+    if (retrieve('strict')) {
+      right = response === answer;
+    } else {
+      right = normalise(response) === normalise(answer);
+    }
+    $('.result').toggleClass('correct', right);
+    if (right) {
       correct++;
-      $('.result').html('CORRECT!');
+      $('.result').html(answer + ' is CORRECT!');
     } else {
       $('.result').html('WRONG! Correct Answer: ' + answer);
     }
-    $('.score').html(correct + '/' + asked);
-    $('.response').val('');
+    $('.score').html(correct + ' / ' + asked);
+    $('.quiz .response').val('');
     return ask();
   });
 };
@@ -160,14 +244,34 @@ $(function() {
         return null;
       }
     });
+    localStorage.setItem('usingTenses', JSON.stringify(tenses));
+    localStorage.setItem('usingPronouns', JSON.stringify(pronouns));
     toggleQuiz();
     return ask();
   });
   $('.show-prompts').click(toggleQuiz);
-  return $('.response').keyup(function(e) {
+  $('.toggle-verbs').click(function() {
+    return $('.using-verbs').toggleClass('active');
+  });
+  $('.response').keyup(function(e) {
     if (e.keyCode === 13) {
-      return $('.submit').trigger('click');
+      $(this).next('.submit').trigger('click');
     }
+    if (e.keyCode === 27) {
+      return $(this).closest('.pane').find('.close-pane').click();
+    }
+  });
+  $('.translate .submit').on('click', function() {
+    var input, translation;
+    input = $('.translate .response');
+    translation = translate(input.val());
+    $('.translation').text(translation || '');
+    return input.select();
+  });
+  key('`', toggleTranslate);
+  $('.toggle-translate').on('click', toggleTranslate);
+  return $('.close-pane').on('click', function() {
+    return $(this).closest('.pane').hide();
   });
 });
 
