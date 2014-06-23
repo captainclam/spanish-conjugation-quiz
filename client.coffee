@@ -59,6 +59,7 @@ toggleTranslate = ->
 toggleQuiz = ->
   $('.prompts').toggle()
   $('.quiz').toggle()
+  $('.tenses').toggle()
 
 init = ->
   verbPane = $('.using-verbs')
@@ -99,6 +100,8 @@ init = ->
         input.prop 'checked', option in prompt.default
         input.val option
 
+  $('.prompts').prepend '<h2>Settings</h2>' # LAZY
+
 
 rand = (arr) ->
   unless arr.length
@@ -132,12 +135,14 @@ ask = ->
   unless tense? and pronoun?
     return ask() # null tenses/pronouns have been opted out of
 
-  $('.tense .value').text tense
+  # $('.tense .value').text tense
+  $('.tense').removeClass 'active'
+  $(".tense:contains(#{tense})").addClass 'active'
   $('.verb .value').text verb.infinitive
   $('.pronoun .value').text pronoun
-  $('.translation').text '(' + verb.translation + ')'
+  $('.quiz .translation').text '(' + verb.translation + ')'
 
-  $('.translation').toggle verb.translation?.length > 0
+  $('.quiz .translation').toggle verb.translation?.length > 0
 
   $('.quiz .submit').off 'click'
   $('.quiz .submit').one 'click', ->

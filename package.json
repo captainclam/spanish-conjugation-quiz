@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "async": "*",
+    "autoprefixer": "^1.3.1",
     "browserify": "*",
     "cli-color": "*",
     "coffeeify": "*",

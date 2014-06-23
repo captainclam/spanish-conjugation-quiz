@@ -111,6 +111,11 @@ button.big {
   overflow: scroll;
   transition: right 0.2s ease;
 }
+.using-verbs h2 {
+  margin: 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  margin-bottom: 10px;
+}
 .using-verbs.active {
   right: 0;
 }
@@ -124,16 +129,17 @@ button.big {
   float: right;
 }
 .toggle-verbs {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  z-index: 1;
+  float: right;
+  margin-right: 20px;
 }
 nav {
+  display: border-box;
   position: absolute;
   top: 10px;
-  left: 10px;
+  padding-left: 10px;
+  left: 0;
+  width: 100%;
+  z-index: 1;
 }
 nav button {
   float: left;
@@ -152,4 +158,32 @@ nav button {
 }
 .close-pane:hover {
   opacity: 1;
+}
+.pane.tenses {
+  display: none;
+  padding: 0;
+}
+.pane.tenses .flex {
+  display: flex;
+}
+.pane.tenses .flex .tense {
+  flex: 1;
+  background: rgba(0,0,0,0.5);
+  padding: 10px;
+  text-align: center;
+}
+.pane.tenses .flex .tense.active {
+  background: rgba(0,0,0,0.8);
+}
+.verb {
+  font-size: 30px;
+}
+.verb .value {
+  color: #fecb00;
+}
+.verb .translation {
+  visibility: hidden;
+}
+.verb:hover .translation {
+  visibility: visible;
 }

@@ -87,6 +87,10 @@ button.big
   height: 100%
   overflow: scroll
   transition: right 0.2s ease
+  h2
+    margin: 0
+    border-bottom: 1px solid rgba(0,0,0,0.1)
+    margin-bottom: 10px
   &.active
     right: 0
 .using-verbs label
@@ -99,16 +103,17 @@ button.big
   float: right
 
 .toggle-verbs
-  position: absolute
-  top: 10px
-  right: 10px
-  cursor: pointer
-  z-index: 1
+  float: right
+  margin-right: 20px
 
 nav
+  display: border-box
   position: absolute
   top: 10px
-  left: 10px
+  padding-left: 10px
+  left: 0
+  width: 100%
+  z-index: 1
   button
     float: left
     margin-right: 10px
@@ -124,3 +129,25 @@ nav
   opacity: 0.5
   &:hover
     opacity: 1
+
+.pane.tenses
+  display: none
+  padding: 0
+  .flex
+    display: flex
+    .tense
+      flex: 1
+      background: rgba(0,0,0,0.5)
+      padding: 10px
+      text-align: center
+      &.active
+        background: rgba(0,0,0,0.8)
+
+.verb
+  font-size: 30px
+  .value
+    color: $yellow
+  .translation
+    visibility: hidden
+  &:hover .translation
+    visibility: visible
