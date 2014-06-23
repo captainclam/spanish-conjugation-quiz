@@ -2,6 +2,9 @@ window._ = require 'underscore'
 tenses = require './tenses.coffee'
 pronouns =  require './pronouns.coffee'
 
+allTenses = _.clone tenses
+allPronouns = _.clone pronouns
+
 retrieve = (k) -> JSON.parse localStorage.getItem k
 store = (k, v) -> localStorage.setItem k, JSON.stringify v
 
@@ -33,6 +36,25 @@ prompts = [
     default: retrieve 'strict'
   }
 ]
+
+translate =  (str) ->
+  # todo: non-strict
+  verb = _.findWhere verbs, infinitive: str
+  if verb
+    return verb.translation 
+  else
+    for verb in verbs
+      for arr, pi in verb.conjugations
+        if str in arr
+          pronoun = allPronouns[pi]
+          tense = allTenses[arr.indexOf(str)]
+          return  "#{verb.translation} (#{verb.infinitive}, #{pronoun}, #{tense})"
+
+toggleTranslate = ->
+  $('.translate.pane').toggle()
+  if $('.translate.pane').is(':visible')
+    $('.translate.pane input').select()
+    return false
 
 toggleQuiz = ->
   $('.prompts').toggle()
@@ -98,7 +120,7 @@ normalise = (str) ->
   return str
 
 ask = ->
-  $('.response').focus()
+  $('.quiz .response').focus()
 
   verb = rand _.filter verbs, (v) ->
     v.infinitive in usingVerbs
@@ -117,8 +139,8 @@ ask = ->
 
   $('.translation').toggle verb.translation?.length > 0
 
-  $('.submit').off 'click'
-  $('.submit').one 'click', ->
+  $('.quiz .submit').off 'click'
+  $('.quiz .submit').one 'click', ->
     response = $('.response').val()
     asked++
 
@@ -136,8 +158,8 @@ ask = ->
     else
       $('.result').html 'WRONG! Correct Answer: ' + answer
 
-    $('.score').html correct + '/' + asked
-    $('.response').val('')
+    $('.score').html correct + ' / ' + asked
+    $('.quiz .response').val('')
     ask()
 
 $ ->
@@ -162,6 +184,24 @@ $ ->
 
   $('.show-prompts').click toggleQuiz
 
+  $('.toggle-verbs').click ->
+    $('.using-verbs').toggleClass 'active'
+
   $('.response').keyup (e) ->
     if e.keyCode is 13
-      $('.submit').trigger 'click'
+      $(this).next('.submit').trigger 'click'
+
+    if e.keyCode is 27
+      $(this).closest('.pane').find('.close-pane').click()
+
+  $('.translate .submit').on 'click', ->
+    input = $('.translate .response')
+    translation = translate input.val()
+    $('.translation').text translation or ''
+    input.select()
+
+  key '`', toggleTranslate
+  $('.toggle-translate').on 'click', toggleTranslate
+
+  $('.close-pane').on 'click', ->
+    $(this).closest('.pane').hide()

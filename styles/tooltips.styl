@@ -1,0 +1,23 @@
+.tooltip
+  position: relative
+
+.tooltip:before
+  display: none
+  position: absolute
+  left: 0
+  width: 100px
+  content: attr(title)
+  padding: 5px
+  background-color: #222
+  border: 1px solid #111
+  font-family: arial
+  font-size: 13px
+  border-radius: 2px
+  color: #eee
+  text-shadow: none
+  z-index: 200
+  top: calc(100% + 10px)
+  opacity: 0.8
+
+.tooltip:hover:before
+  display: block

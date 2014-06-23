@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var ask, asked, correct, init, normalise, prompts, pronouns, rand, retrieve, store, tenses, toggleQuiz, usingPronouns, usingTenses, verbs,
+var allPronouns, allTenses, ask, asked, correct, init, normalise, prompts, pronouns, rand, retrieve, store, tenses, toggleQuiz, toggleTranslate, translate, usingPronouns, usingTenses, verbs,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 window._ = require('underscore');
@@ -7,6 +7,10 @@ window._ = require('underscore');
 tenses = require('./tenses.coffee');
 
 pronouns = require('./pronouns.coffee');
+
+allTenses = _.clone(tenses);
+
+allPronouns = _.clone(pronouns);
 
 retrieve = function(k) {
   return JSON.parse(localStorage.getItem(k));
@@ -46,6 +50,37 @@ prompts = [
     "default": retrieve('strict')
   }
 ];
+
+translate = function(str) {
+  var arr, pi, pronoun, tense, verb, _i, _j, _len, _len1, _ref;
+  verb = _.findWhere(verbs, {
+    infinitive: str
+  });
+  if (verb) {
+    return verb.translation;
+  } else {
+    for (_i = 0, _len = verbs.length; _i < _len; _i++) {
+      verb = verbs[_i];
+      _ref = verb.conjugations;
+      for (pi = _j = 0, _len1 = _ref.length; _j < _len1; pi = ++_j) {
+        arr = _ref[pi];
+        if (__indexOf.call(arr, str) >= 0) {
+          pronoun = allPronouns[pi];
+          tense = allTenses[arr.indexOf(str)];
+          return "" + verb.translation + " (" + verb.infinitive + ", " + pronoun + ", " + tense + ")";
+        }
+      }
+    }
+  }
+};
+
+toggleTranslate = function() {
+  $('.translate.pane').toggle();
+  if ($('.translate.pane').is(':visible')) {
+    $('.translate.pane input').select();
+    return false;
+  }
+};
 
 toggleQuiz = function() {
   $('.prompts').toggle();
@@ -134,7 +169,7 @@ normalise = function(str) {
 
 ask = function() {
   var pi, pronoun, tense, ti, verb, _ref;
-  $('.response').focus();
+  $('.quiz .response').focus();
   verb = rand(_.filter(verbs, function(v) {
     var _ref;
     return _ref = v.infinitive, __indexOf.call(usingVerbs, _ref) >= 0;
@@ -151,8 +186,8 @@ ask = function() {
   $('.pronoun .value').text(pronoun);
   $('.translation').text('(' + verb.translation + ')');
   $('.translation').toggle(((_ref = verb.translation) != null ? _ref.length : void 0) > 0);
-  $('.submit').off('click');
-  return $('.submit').one('click', function() {
+  $('.quiz .submit').off('click');
+  return $('.quiz .submit').one('click', function() {
     var answer, response, right, _ref1, _ref2, _ref3;
     response = $('.response').val();
     asked++;
@@ -169,8 +204,8 @@ ask = function() {
     } else {
       $('.result').html('WRONG! Correct Answer: ' + answer);
     }
-    $('.score').html(correct + '/' + asked);
-    $('.response').val('');
+    $('.score').html(correct + ' / ' + asked);
+    $('.quiz .response').val('');
     return ask();
   });
 };
@@ -215,10 +250,28 @@ $(function() {
     return ask();
   });
   $('.show-prompts').click(toggleQuiz);
-  return $('.response').keyup(function(e) {
+  $('.toggle-verbs').click(function() {
+    return $('.using-verbs').toggleClass('active');
+  });
+  $('.response').keyup(function(e) {
     if (e.keyCode === 13) {
-      return $('.submit').trigger('click');
+      $(this).next('.submit').trigger('click');
     }
+    if (e.keyCode === 27) {
+      return $(this).closest('.pane').find('.close-pane').click();
+    }
+  });
+  $('.translate .submit').on('click', function() {
+    var input, translation;
+    input = $('.translate .response');
+    translation = translate(input.val());
+    $('.translation').text(translation || '');
+    return input.select();
+  });
+  key('`', toggleTranslate);
+  $('.toggle-translate').on('click', toggleTranslate);
+  return $('.close-pane').on('click', function() {
+    return $(this).closest('.pane').hide();
   });
 });
 

@@ -1,5 +1,7 @@
 /* http://paletton.com/#uid=13r0u0kllllaFw0g0qFqFg0w0aF */
 
+@import "tooltips"
+
 // spain flag: 
 $yellow = #FECB00
 $red = #FE0000
@@ -21,11 +23,13 @@ h1
   // color: $yellow
   text-shadow: 2px 2px rgba(0,0,0,0.2)
   font-size: 38px
+  margin: 60px 0 10px
 
 .pane
   border: 1px solid rgba(0,0,0,0.3)
   padding: 20px  
   background: rgba(0,0,0,0.1)
+  margin-bottom: 20px
 
 .quiz
   display: none
@@ -74,7 +78,7 @@ button.big
 .using-verbs
   position: absolute
   top: 0
-  right: 0
+  right: -100%
   width: 8%
   min-width: 200px
   // background: #467386
@@ -82,17 +86,41 @@ button.big
   padding: 1% 2%
   height: 100%
   overflow: scroll
+  transition: right 0.2s ease
+  &.active
+    right: 0
 .using-verbs label
   display: block
-
-.show-prompts
-  font-size: 20px
-  position: absolute
-  right: 20%
-  top: 20px
 
 .toggle-all
   font-weight: bold
 
 .score
   float: right
+
+.toggle-verbs
+  position: absolute
+  top: 10px
+  right: 10px
+  cursor: pointer
+  z-index: 1
+
+nav
+  position: absolute
+  top: 10px
+  left: 10px
+  button
+    float: left
+    margin-right: 10px
+
+.translate
+  display: none
+  h2
+    margin: 0
+
+.close-pane
+  float: right
+  cursor: pointer
+  opacity: 0.5
+  &:hover
+    opacity: 1

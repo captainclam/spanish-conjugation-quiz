@@ -1,4 +1,28 @@
 /* http://paletton.com/#uid=13r0u0kllllaFw0g0qFqFg0w0aF */
+.tooltip {
+  position: relative;
+}
+.tooltip:before {
+  display: none;
+  position: absolute;
+  left: 0;
+  width: 100px;
+  content: attr(title);
+  padding: 5px;
+  background-color: #222;
+  border: 1px solid #111;
+  font-family: arial;
+  font-size: 13px;
+  border-radius: 2px;
+  color: #eee;
+  text-shadow: none;
+  z-index: 200;
+  top: calc(100% + 10px);
+  opacity: 0.8;
+}
+.tooltip:hover:before {
+  display: block;
+}
 body {
   width: 680px;
   font-family: Helvetica;
@@ -15,11 +39,13 @@ h1 {
   font-family: 'Source Sans Pro', sans-serif;
   text-shadow: 2px 2px rgba(0,0,0,0.2);
   font-size: 38px;
+  margin: 60px 0 10px;
 }
 .pane {
   border: 1px solid rgba(0,0,0,0.3);
   padding: 20px;
   background: rgba(0,0,0,0.1);
+  margin-bottom: 20px;
 }
 .quiz {
   display: none;
@@ -76,26 +102,54 @@ button.big {
 .using-verbs {
   position: absolute;
   top: 0;
-  right: 0;
+  right: -100%;
   width: 8%;
   min-width: 200px;
   background: rgba(0,0,0,0.2);
   padding: 1% 2%;
   height: 100%;
   overflow: scroll;
+  transition: right 0.2s ease;
+}
+.using-verbs.active {
+  right: 0;
 }
 .using-verbs label {
   display: block;
-}
-.show-prompts {
-  font-size: 20px;
-  position: absolute;
-  right: 20%;
-  top: 20px;
 }
 .toggle-all {
   font-weight: bold;
 }
 .score {
   float: right;
+}
+.toggle-verbs {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  z-index: 1;
+}
+nav {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+nav button {
+  float: left;
+  margin-right: 10px;
+}
+.translate {
+  display: none;
+}
+.translate h2 {
+  margin: 0;
+}
+.close-pane {
+  float: right;
+  cursor: pointer;
+  opacity: 0.5;
+}
+.close-pane:hover {
+  opacity: 1;
 }
