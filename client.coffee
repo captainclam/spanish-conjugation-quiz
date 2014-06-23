@@ -66,6 +66,19 @@ rand = (arr) ->
   index = _.random(0, arr.length - 1)
   return arr[index]
 
+normalise = (str) ->
+  str = str.toLowerCase()
+  replaces =
+    'á': 'a'
+    'é': 'e'
+    'í': 'i'
+    'ó': 'o'
+    'ñ': 'n'
+  for k, v of replaces
+    regexp = new RegExp k, 'gi'
+    str = str.replace regexp, v
+  return str
+
 ask = ->
   $('.response').focus()
 
@@ -92,8 +105,11 @@ ask = ->
     asked++
 
     answer = verb.conjugations?[pi]?[ti]?.trim?()
-    $('.result').toggleClass 'correct', response is answer
-    if response is answer
+
+    right = normalise(response) is normalise(answer)
+
+    $('.result').toggleClass 'correct', right
+    if right
       correct++
       $('.result').html 'CORRECT!'
     else

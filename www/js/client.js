@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var ask, asked, correct, init, prompts, pronouns, rand, tenses, toggleQuiz, usingPronouns, usingTenses, verbs,
+var ask, asked, correct, init, normalise, prompts, pronouns, rand, tenses, toggleQuiz, usingPronouns, usingTenses, verbs,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 window._ = require('underscore');
@@ -92,6 +92,24 @@ rand = function(arr) {
   return arr[index];
 };
 
+normalise = function(str) {
+  var k, regexp, replaces, v;
+  str = str.toLowerCase();
+  replaces = {
+    'á': 'a',
+    'é': 'e',
+    'í': 'i',
+    'ó': 'o',
+    'ñ': 'n'
+  };
+  for (k in replaces) {
+    v = replaces[k];
+    regexp = new RegExp(k, 'gi');
+    str = str.replace(regexp, v);
+  }
+  return str;
+};
+
 ask = function() {
   var pi, pronoun, tense, ti, verb, _ref;
   $('.response').focus();
@@ -113,12 +131,13 @@ ask = function() {
   $('.translation').toggle(((_ref = verb.translation) != null ? _ref.length : void 0) > 0);
   $('.submit').off('click');
   return $('.submit').one('click', function() {
-    var answer, response, _ref1, _ref2, _ref3;
+    var answer, response, right, _ref1, _ref2, _ref3;
     response = $('.response').val();
     asked++;
     answer = (_ref1 = verb.conjugations) != null ? (_ref2 = _ref1[pi]) != null ? (_ref3 = _ref2[ti]) != null ? typeof _ref3.trim === "function" ? _ref3.trim() : void 0 : void 0 : void 0 : void 0;
-    $('.result').toggleClass('correct', response === answer);
-    if (response === answer) {
+    right = normalise(response) === normalise(answer);
+    $('.result').toggleClass('correct', right);
+    if (right) {
       correct++;
       $('.result').html('CORRECT!');
     } else {
