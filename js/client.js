@@ -189,7 +189,7 @@ ask = function() {
   $('.quiz .submit').off('click');
   return $('.quiz .submit').one('click', function() {
     var answer, response, right, _ref1, _ref2, _ref3;
-    response = $('.response').val();
+    response = $('.quiz .response').val();
     asked++;
     answer = (_ref1 = verb.conjugations) != null ? (_ref2 = _ref1[pi]) != null ? (_ref3 = _ref2[ti]) != null ? typeof _ref3.trim === "function" ? _ref3.trim() : void 0 : void 0 : void 0 : void 0;
     if (retrieve('strict')) {
