@@ -2,10 +2,12 @@ window._ = require 'underscore'
 tenses = require './tenses.coffee'
 pronouns =  require './pronouns.coffee'
 
-window.usingVerbs = JSON.parse localStorage.getItem('usingVerbs') # for filtering
+retrieve = (k) -> JSON.parse localStorage.getItem k
+store = (k, v) -> localStorage.setItem k, JSON.stringify v
 
-usingTenses = JSON.parse localStorage.getItem('usingTenses')
-usingPronouns = JSON.parse localStorage.getItem('usingPronouns')
+window.usingVerbs = retrieve 'usingVerbs' # for filtering
+usingTenses = retrieve 'usingTenses'
+usingPronouns = retrieve 'usingPronouns'
 
 verbs = null
 asked = 0
@@ -23,6 +25,12 @@ prompts = [
     message: 'Which pronouns do you want to test?'
     choices: pronouns
     default: usingPronouns or _.without pronouns, 'vosotros'
+  }
+  {
+    name: 'strict'
+    message: 'Strict accents? (requires áéíóñ instead of aeion)'
+    type: 'flag'
+    default: retrieve 'strict'
   }
 ]
 
@@ -50,15 +58,25 @@ init = ->
 
   for prompt in prompts
     pane = $ '<div class="prompt">'
-    pane.append prompt.message
-    for option in prompt.choices
+    $('.prompts').prepend pane
+
+    if prompt.type is 'flag'
       input = $ '<input type="checkbox">'
       input.attr 'name', prompt.name
-      input.prop 'checked', option in prompt.default
-      input.val option
-      label = $('<label>').append(input).append(option)
-      pane.append label
-    $('.prompts').prepend pane
+      label = $('<label>').append(input).append(prompt.message)
+      pane.html label
+      input.on 'change', -> store prompt.name, input.prop 'checked'
+      input.prop 'checked', prompt.default
+    else
+      pane.text prompt.message
+      _.each prompt.choices, (option) ->
+        input = $ '<input type="checkbox">'
+        input.attr 'name', prompt.name
+        label = $('<label>').append(input).append(option)
+        pane.append label
+        input.prop 'checked', option in prompt.default
+        input.val option
+
 
 rand = (arr) ->
   unless arr.length
@@ -106,12 +124,15 @@ ask = ->
 
     answer = verb.conjugations?[pi]?[ti]?.trim?()
 
-    right = normalise(response) is normalise(answer)
+    if retrieve 'strict'
+      right = response is answer
+    else
+      right = normalise(response) is normalise(answer)
 
     $('.result').toggleClass 'correct', right
     if right
       correct++
-      $('.result').html 'CORRECT!'
+      $('.result').html answer + ' is CORRECT!'
     else
       $('.result').html 'WRONG! Correct Answer: ' + answer
 

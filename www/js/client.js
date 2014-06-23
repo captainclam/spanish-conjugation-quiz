@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var ask, asked, correct, init, normalise, prompts, pronouns, rand, tenses, toggleQuiz, usingPronouns, usingTenses, verbs,
+var ask, asked, correct, init, normalise, prompts, pronouns, rand, retrieve, store, tenses, toggleQuiz, usingPronouns, usingTenses, verbs,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 window._ = require('underscore');
@@ -8,11 +8,19 @@ tenses = require('./tenses.coffee');
 
 pronouns = require('./pronouns.coffee');
 
-window.usingVerbs = JSON.parse(localStorage.getItem('usingVerbs'));
+retrieve = function(k) {
+  return JSON.parse(localStorage.getItem(k));
+};
 
-usingTenses = JSON.parse(localStorage.getItem('usingTenses'));
+store = function(k, v) {
+  return localStorage.setItem(k, JSON.stringify(v));
+};
 
-usingPronouns = JSON.parse(localStorage.getItem('usingPronouns'));
+window.usingVerbs = retrieve('usingVerbs');
+
+usingTenses = retrieve('usingTenses');
+
+usingPronouns = retrieve('usingPronouns');
 
 verbs = null;
 
@@ -31,6 +39,11 @@ prompts = [
     message: 'Which pronouns do you want to test?',
     choices: pronouns,
     "default": usingPronouns || _.without(pronouns, 'vosotros')
+  }, {
+    name: 'strict',
+    message: 'Strict accents? (requires áéíóñ instead of aeion)',
+    type: 'flag',
+    "default": retrieve('strict')
   }
 ];
 
@@ -40,7 +53,7 @@ toggleQuiz = function() {
 };
 
 init = function() {
-  var input, label, option, pane, prompt, verb, verbPane, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _results;
+  var input, label, pane, prompt, verb, verbPane, _i, _j, _len, _len1, _ref, _results;
   verbPane = $('.using-verbs');
   verbPane.on('change', 'input', function(e) {
     var checked, using;
@@ -67,18 +80,27 @@ init = function() {
   for (_j = 0, _len1 = prompts.length; _j < _len1; _j++) {
     prompt = prompts[_j];
     pane = $('<div class="prompt">');
-    pane.append(prompt.message);
-    _ref1 = prompt.choices;
-    for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
-      option = _ref1[_k];
+    $('.prompts').prepend(pane);
+    if (prompt.type === 'flag') {
       input = $('<input type="checkbox">');
       input.attr('name', prompt.name);
-      input.prop('checked', __indexOf.call(prompt["default"], option) >= 0);
-      input.val(option);
-      label = $('<label>').append(input).append(option);
-      pane.append(label);
+      label = $('<label>').append(input).append(prompt.message);
+      pane.html(label);
+      input.on('change', function() {
+        return store(prompt.name, input.prop('checked'));
+      });
+      _results.push(input.prop('checked', prompt["default"]));
+    } else {
+      pane.text(prompt.message);
+      _results.push(_.each(prompt.choices, function(option) {
+        input = $('<input type="checkbox">');
+        input.attr('name', prompt.name);
+        label = $('<label>').append(input).append(option);
+        pane.append(label);
+        input.prop('checked', __indexOf.call(prompt["default"], option) >= 0);
+        return input.val(option);
+      }));
     }
-    _results.push($('.prompts').prepend(pane));
   }
   return _results;
 };
@@ -135,11 +157,15 @@ ask = function() {
     response = $('.response').val();
     asked++;
     answer = (_ref1 = verb.conjugations) != null ? (_ref2 = _ref1[pi]) != null ? (_ref3 = _ref2[ti]) != null ? typeof _ref3.trim === "function" ? _ref3.trim() : void 0 : void 0 : void 0 : void 0;
-    right = normalise(response) === normalise(answer);
+    if (retrieve('strict')) {
+      right = response === answer;
+    } else {
+      right = normalise(response) === normalise(answer);
+    }
     $('.result').toggleClass('correct', right);
     if (right) {
       correct++;
-      $('.result').html('CORRECT!');
+      $('.result').html(answer + ' is CORRECT!');
     } else {
       $('.result').html('WRONG! Correct Answer: ' + answer);
     }
