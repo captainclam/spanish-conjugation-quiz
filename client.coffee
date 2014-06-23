@@ -141,7 +141,7 @@ ask = ->
 
   $('.quiz .submit').off 'click'
   $('.quiz .submit').one 'click', ->
-    response = $('.response').val()
+    response = $('.quiz .response').val()
     asked++
 
     answer = verb.conjugations?[pi]?[ti]?.trim?()
