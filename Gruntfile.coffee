@@ -13,6 +13,11 @@ module.exports = (grunt) ->
           base: 'www'
           # keepalive: true
 
+    'gh-pages':
+      options:
+        base: 'www'
+      src: ['**']
+
     stylus:
       compile:
         options:
@@ -48,6 +53,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-stylus'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-connect'
+  grunt.loadNpmTasks 'grunt-gh-pages'
 
   grunt.registerTask 'default', ['browserify', 'stylus']
   grunt.registerTask 'server', ['connect', 'watch']
