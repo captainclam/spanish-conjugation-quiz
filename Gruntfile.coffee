@@ -67,5 +67,5 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-connect'
   grunt.loadNpmTasks 'grunt-gh-pages'
 
-  grunt.registerTask 'default', ['browserify', 'stylus']
+  grunt.registerTask 'default', ['browserify', 'stylus', 'jade']
   grunt.registerTask 'server', ['connect', 'watch']
