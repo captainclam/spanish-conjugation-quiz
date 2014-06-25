@@ -33,6 +33,14 @@ module.exports = (grunt) ->
           transform: ['coffeeify']
           extensions: '.coffee'
 
+    jade:
+      compile:
+        options:
+          data:
+            DEBUG: DEBUG
+        files:
+          'www/index.html': ['views/index.jade']
+
     watch:
       stylus:
         files: ['styles/*.styl']
@@ -40,6 +48,9 @@ module.exports = (grunt) ->
       browserify:
         files: ['client.coffee']
         tasks: ['browserify']
+      jade:
+        files: ['views/*.jade']
+        tasks: ['jade']
       livereload:
         options:
           livereload: true
@@ -51,6 +62,7 @@ module.exports = (grunt) ->
 
   grunt.loadNpmTasks 'grunt-browserify'
   grunt.loadNpmTasks 'grunt-contrib-stylus'
+  grunt.loadNpmTasks 'grunt-contrib-jade'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-connect'
   grunt.loadNpmTasks 'grunt-gh-pages'

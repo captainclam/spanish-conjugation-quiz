@@ -1,0 +1,61 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='format-detection', content='telephone=no')
+    title Spanish Conjugation Quiz
+    link(href='http://fonts.googleapis.com/css?family=Source+Sans+Pro', rel='stylesheet', type='text/css')
+    link(href='//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css', rel='stylesheet')
+    link(rel='stylesheet', type='text/css', href='css/normalize.css')
+    link(rel='stylesheet', type='text/css', href='css/main.css')
+    script(src='js/keymaster.js')
+    script(src='js/jquery.min.js')
+    script(src='js/client.js')
+    if DEBUG
+      script(src='http://localhost:35729/livereload.js')
+  body
+    //- h1 Spanish Conjugation Practice
+    nav
+      button.toggle-translate.tooltip(title='translation')
+        i.fa.fa-search
+      button.show-prompts.tooltip(title='settings')
+        i.fa.fa-gear
+      button.toggle-verbs.tooltip(title='verbs')
+        i.fa.fa-bars
+    .using-verbs
+      h2 Verbs
+      label
+        input.select-all(type='checkbox')
+        | Toggle All
+    .translate.pane
+      i.fa.fa-times.close-pane
+      h2 Translate
+      input.response(type='text')
+      button.submit
+        i.fa.fa-arrow-circle-right
+      .translation
+    .pane.tenses
+      .flex
+        .tense Presente
+        .tense Pretérito
+        .tense Imperfecto
+        .tense.active Condicional
+        .tense Futuro
+    .prompts.pane
+      button.start-quiz.big
+        | Start Quiz
+        i.fa.fa-arrow-circle-right.right
+    .quiz.pane
+      .score
+      //
+         <div class="tense">Tense: <span class="value"></span></div> 
+      .verb
+        | Verb:
+        span.value
+        span.translation
+      .pronoun
+        span.value
+      input.response
+      button.submit
+        i.fa.fa-arrow-circle-right
+      .result
