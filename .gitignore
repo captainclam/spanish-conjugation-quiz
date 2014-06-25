@@ -1,3 +1,6 @@
 node_modules
 npm-debug.log
 .grunt
+www/css/main.css
+www/index.html
+www/js/client.js
