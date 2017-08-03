@@ -2,7 +2,7 @@
 
 Nothing like duolingo. This is just a quiz game for practicing conjugating verbs:
 
-Web version available here: http://captainclam.github.io/spanish-conjugation-quiz/
+Web version available here: http://simon-lang.github.io/spanish-conjugation-quiz/
 
 Command line version requires download: (see Installation below)
 
